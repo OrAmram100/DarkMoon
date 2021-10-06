@@ -11,9 +11,9 @@ public class PlayerMotion : MonoBehaviour
     private float rotationAboutY = 0, rotationAboutX = 0;
     public GameObject camera;
     private AudioSource stepSound;
-    
 
-    
+
+
 
 
     // Start is called before the first frame update
@@ -62,8 +62,8 @@ public class PlayerMotion : MonoBehaviour
             if (!stepSound.isPlaying)
                 stepSound.Play();
         }
-        
-        
+
+
 
 
     }

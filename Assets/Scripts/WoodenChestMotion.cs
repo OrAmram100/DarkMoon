@@ -12,7 +12,7 @@ public class WoodenChestMotion : MonoBehaviour
     public GameObject touchCrosshair;
     public Text whatToDo;
     public Text findKeyText;
-    private bool  isFocusOn = false,isLocked=true;
+    private bool isFocusOn = false, isLocked = true;
     private AudioSource audioSource;
 
 
@@ -70,16 +70,16 @@ public class WoodenChestMotion : MonoBehaviour
                 touchCrosshair.SetActive(false);
                 whatToDo.gameObject.SetActive(false);
             }
-            }
-           
-
-        
-        
-
         }
 
-         private IEnumerator FindKeyText()
-        {
+
+
+
+
+    }
+
+    private IEnumerator FindKeyText()
+    {
         findKeyText.gameObject.SetActive(true);
         whatToDo.enabled = false;
         findKeyText.enabled = true;
@@ -88,10 +88,10 @@ public class WoodenChestMotion : MonoBehaviour
     }
     public IEnumerator Unlock()
     {
-       yield return  new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
         isLocked = false;
     }
-   
+
 
     private void openTheChest()
     {
