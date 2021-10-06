@@ -11,9 +11,37 @@ public class PlayerMotion : MonoBehaviour
     private float rotationAboutY = 0, rotationAboutX = 0;
     public GameObject camera;
     private AudioSource stepSound;
+    public float movementSpeed = 1f;
+
+    public float gravityFactor = -9.81f;
+    public float currentVelY = 0;
+
+    public bool isSprinting = false;
+    public float sprintingMultiplier;
 
 
+    public float standingHeight = 1.8f;
 
+    public LayerMask groundMask;
+    public Transform groundDetectionTransform;
+
+
+    public bool isGrounded;
+
+
+    public void CheckIsGrounded()
+    {
+        Collider[] cols = Physics.OverlapSphere(groundDetectionTransform.position, 0.05f, groundMask);
+
+        if (cols.Length > 0)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
 
 
     // Start is called before the first frame update
@@ -65,6 +93,45 @@ public class PlayerMotion : MonoBehaviour
 
 
 
+        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputY = Input.GetAxisRaw("Vertical");
+        CheckIsGrounded();
 
+        if (isGrounded == false)
+        {
+            currentVelY += gravityFactor * Time.deltaTime;
+        }
+        else if (isGrounded == true)
+        {
+            currentVelY = -2f;
+        }
+
+
+
+
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
+
+        Vector3 movement = new Vector3();
+
+        movement = inputX * transform.right + inputY * transform.forward;
+
+
+
+        if (isSprinting == true)
+        {
+            movement *= sprintingMultiplier;
+        }
+
+        controller.Move(movement * movementSpeed * Time.deltaTime);
+        controller.Move(new Vector3(0, currentVelY * Time.deltaTime, 0));
     }
 }
+
