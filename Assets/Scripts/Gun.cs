@@ -14,7 +14,8 @@ public class Gun : MonoBehaviour
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
     private AudioSource gunAudio;                                        // Reference to the audio source which will play our shooting sound effect
     private LineRenderer laserLine;                                        // Reference to the LineRenderer component which will display our laserline
-    private float nextFire;                                                // Float to store the time the player will be allowed to fire again, after firing
+    private float nextFire;
+    public ParticleSystem muzzleAffect;// Float to store the time the player will be allowed to fire again, after firing
 
 
     void Start()
@@ -25,6 +26,7 @@ public class Gun : MonoBehaviour
         // Get and store a reference to our AudioSource component
         gunAudio = GetComponent<AudioSource>();
 
+
         // Get and store a reference to our Camera by searching this GameObject and its parents
     }
 
@@ -34,6 +36,7 @@ public class Gun : MonoBehaviour
         // Check if the player has pressed the fire button and if enough time has elapsed since they last fired
         if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
         {
+            muzzleAffect.Play();
             // Update the time when our player can fire next
             nextFire = Time.time + fireRate;
 
