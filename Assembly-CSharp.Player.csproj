@@ -117,6 +117,7 @@
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\Environment\#NVJOB Assets\Dynamic Sky (For Demo)\DynamicSkyForDemo.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\BuiltinDebugViewsComponent.cs" />
     <Compile Include="Assets\WorldSkies\Demo\Scripts\SkyboxChanger.cs" />
+    <Compile Include="Assets\Scripts\GateAlarm.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Models\BloomModel.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Models\MotionBlurModel.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
@@ -125,7 +126,8 @@
     <Compile Include="Assets\Scripts\RayViewerComplete.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\Scripts\GateAlarm.cs" />
+    <Compile Include="Assets\Scripts\LightController.cs" />
+    <Compile Include="Assets\Scripts\MachineGun.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
