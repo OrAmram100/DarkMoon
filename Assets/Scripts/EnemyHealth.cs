@@ -5,18 +5,29 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public float enemyHealth = 100f;
+    EnemyAI enemyAI;
+    public bool isEnemyDead;
 
+    private void Start()
+    {
+        enemyAI = GetComponent<EnemyAI>();
+    }
     public void DetuctHealth(float detuctHealth)
     {
-        enemyHealth -= detuctHealth;
-        if (enemyHealth <= 0)
+        if (!isEnemyDead)
         {
-            EnemeDead();
+            enemyHealth -= detuctHealth;
+            if (enemyHealth <= 0)
+            {
+                EnemeDead();
+            }
         }
     }
     void EnemeDead()
     {
-        Destroy(gameObject);
+        isEnemyDead = true;
+        enemyAI.enemyDeathAnim();
+        Destroy(gameObject, 10);
     }
 
 }
