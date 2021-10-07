@@ -88,7 +88,9 @@ public class PlayerMotion : MonoBehaviour
         {
 
             if (!stepSound.isPlaying)
+            {
                 stepSound.Play();
+            }
         }
 
 
