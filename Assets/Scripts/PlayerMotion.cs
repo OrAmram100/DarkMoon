@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerMotion : MonoBehaviour
 {
+    public GameObject npc;
     private float speed = 40, angularSpeed = 45;
     private CharacterController controller;
     private float rotationAboutY = 0, rotationAboutX = 0;
@@ -55,17 +56,24 @@ public class PlayerMotion : MonoBehaviour
     }
 
 
-
-
-
-
-
-
+    void npcStand()
+    {
+        NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+        Animator animator = npc.GetComponent<Animator>();
+        animator.SetInteger("state", 3);
+        //agent.enabled = true;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        float dx, dy = -1/*kind of a gravity*/, dz;
+        float dx, dy = -1, dz;// kind of a gravity 
+        float distance = Vector3.Distance(npc.transform.position, this.transform.position);
+        if (distance < 25)
+        {
+            npcStand();
+        }
 
         // rotation about Y
         rotationAboutY += Input.GetAxis("Mouse X") * angularSpeed * Time.deltaTime;
@@ -90,6 +98,15 @@ public class PlayerMotion : MonoBehaviour
             if (!stepSound.isPlaying)
             {
                 stepSound.Play();
+            }
+            if (distance > 25)
+            {
+                NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+                agent.enabled = true; // this starts npc motion
+                                      // and let npc walk
+                Animator animator = npc.GetComponent<Animator>();
+                // Debug.Log(animator.GetInteger("state"));
+                animator.SetInteger("state", 1);
             }
         }
 
@@ -136,4 +153,3 @@ public class PlayerMotion : MonoBehaviour
         controller.Move(new Vector3(0, currentVelY * Time.deltaTime, 0));
     }
 }
-
