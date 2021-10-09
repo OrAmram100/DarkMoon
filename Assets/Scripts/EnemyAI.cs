@@ -5,7 +5,8 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public Transform target;
-    NavMeshAgent agent;
+    [HideInInspector]
+    public NavMeshAgent agent;
     Animator animator;
     bool isDead = false;
     public bool canAttack = true;
@@ -23,14 +24,17 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(transform.position, target.position);
-        if (distance > 32 && !isDead)
-        {
-            ChasePlayer();
-        }
-        else if (canAttack && !PlayerHealth.singelton.isDead)
+
+        if (distance < 50 && canAttack && !PlayerHealth.singelton.isDead)
         {
             AttackPlayer();
         }
+
+        else if (distance > 50 && !isDead)
+        {
+            ChasePlayer();
+        }
+
         else if (PlayerHealth.singelton.isDead)
         {
             DisableEnemy();

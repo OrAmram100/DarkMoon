@@ -92,11 +92,11 @@ public class MachineGun : MonoBehaviour
                 //Debug.Log("Hit enemy");
                 EnemyHealth enemyHealthScript = hit.transform.GetComponent<EnemyHealth>();
                 enemyHealthScript.DetuctHealth(damageEnemy);
-                Instantiate(bloodEffect, hit.point, Quaternion.identity);
+                Instantiate(bloodEffect, hit.point, transform.rotation);
             }
             else
             {
-                Debug.Log("Hit Something else");
+                Debug.Log(hit.transform.name);
 
             }
         }

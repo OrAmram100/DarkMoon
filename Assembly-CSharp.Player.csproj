@@ -72,7 +72,6 @@
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Models\DitheringModel.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Utils\ColorGradingCurve.cs" />
     <Compile Include="Assets\Scripts\WeaponsSpawn.cs" />
-    <Compile Include="Assets\Scripts\PlayerMotion.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Models\EyeAdaptationModel.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\BloomComponent.cs" />
@@ -108,8 +107,10 @@
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleCollision.cs" />
+    <Compile Include="Assets\Scripts\MouseLook.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\DitheringComponent.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunShoot.cs" />
+    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Components\MotionBlurComponent.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\PostProcessingModel.cs" />
@@ -134,8 +135,6 @@
     <Compile Include="Assets\Scripts\RayViewerComplete.cs" />
     <Compile Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
     <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
-    <Compile Include="Assets\Scripts\MouseLook.cs" />
-    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\#NVJOB Water Shaders V2\Example Scenes\PostProcessing\Editor Resources\Monitors\WaveformRender.shader" />
