@@ -24,18 +24,19 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(transform.position, target.position);
-
-        if (distance < 50 && canAttack && !PlayerHealth.singelton.isDead)
+        if (!isDead && !PlayerHealth.singelton.isDead)
         {
-            AttackPlayer();
-        }
+            if (distance < 50 && canAttack)
+            {
+                AttackPlayer();
+            }
 
-        else if (distance > 50 && !isDead)
-        {
-            ChasePlayer();
+            else if (distance > 50)
+            {
+                ChasePlayer();
+            }
         }
-
-        else if (PlayerHealth.singelton.isDead)
+        else
         {
             DisableEnemy();
         }

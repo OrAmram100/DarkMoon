@@ -12,6 +12,11 @@ public class PlayerHealth : MonoBehaviour
     public Text healthCounter;
     public bool isDead = false;
 
+    public Color damageColor;
+    public Image damageImage;
+    float colorSmopthing = 6f;
+    bool isTakingDamage = false;
+
     private void Awake()
     {
         singelton = this;
@@ -25,7 +30,18 @@ public class PlayerHealth : MonoBehaviour
 
     }
 
-
+    private void Update()
+    {
+        if (isTakingDamage)
+        {
+            damageImage.color = damageColor;
+        }
+        else
+        {
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, colorSmopthing * Time.deltaTime);
+        }
+        isTakingDamage = false;
+    }
 
 
     public void DamagePlayer(float damage)
@@ -34,10 +50,12 @@ public class PlayerHealth : MonoBehaviour
         {
             if (damage >= currentHealth)
             {
+                isTakingDamage = true;
                 Dead();
             }
             else
             {
+                isTakingDamage = true;
                 currentHealth -= damage;
                 healthSlider.value -= damage;
             }

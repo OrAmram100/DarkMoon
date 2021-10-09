@@ -7,6 +7,7 @@ public class MachineGun : MonoBehaviour
 {
     //used to damage enemy
     public float damageEnemy = 20f;
+    float headShotDamage = 100f;
 
     //weapon effect
     public ParticleSystem muzzleFlash;
@@ -14,6 +15,7 @@ public class MachineGun : MonoBehaviour
     private AudioSource gunAs;
     public AudioClip shootAC;
     public AudioClip dryFireAC;
+    public AudioClip headShotAC;
     //eject bullet casing
     public ParticleSystem bulletCasing;
     //blood effect
@@ -87,16 +89,24 @@ public class MachineGun : MonoBehaviour
     {
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out hit, weaponRange))
         {
+            Debug.Log(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
-                //Debug.Log("Hit enemy");
                 EnemyHealth enemyHealthScript = hit.transform.GetComponent<EnemyHealth>();
                 enemyHealthScript.DetuctHealth(damageEnemy);
                 Instantiate(bloodEffect, hit.point, transform.rotation);
             }
+            else if (hit.transform.tag == "Head")
+            {
+                Debug.Log("Head");
+                EnemyHealth enemyHealthScript = hit.transform.GetComponentInParent<EnemyHealth>();
+                enemyHealthScript.DetuctHealth(headShotDamage);
+                gunAs.PlayOneShot(headShotAC);
+                Instantiate(bloodEffect, hit.point, transform.rotation);
+                hit.transform.gameObject.SetActive(false);
+            }
             else
             {
-                Debug.Log(hit.transform.name);
 
             }
         }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - woodenChestTag
   - Enemy
+  - Head
   layers:
   - Default
   - TransparentFX

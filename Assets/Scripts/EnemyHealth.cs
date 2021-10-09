@@ -24,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
             }
         }
     }
-    void EnemeDead()
+    public void EnemeDead()
     {
         isEnemyDead = true;
         enemyAI.enemyDeathAnim();
@@ -33,6 +33,7 @@ public class EnemyHealth : MonoBehaviour
         {
             col.enabled = false;
         }
+        enemyHealth = 0f;
         Destroy(gameObject, 10);
     }
 
