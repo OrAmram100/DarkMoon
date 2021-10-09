@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float sprintingMultiplier;
     public float movementSpeed = 1f;
     public float currentVelY = 0;
+    private AudioSource stepSound;
+    public GameObject npc;
 
 
 
@@ -23,12 +26,24 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        stepSound = GetComponent<AudioSource>();
     }
-
+    void npcStand()
+    {
+        NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+        agent.enabled = false;
+        Animator animator = npc.GetComponent<Animator>();
+        animator.SetInteger("state", 3);
+        //agent.enabled = true;
+    }
     // Update is called once per frame
     void Update()
     {
+        float distance = Vector3.Distance(npc.transform.position, this.transform.position);
+        if (distance < 25)
+        {
+            npcStand();
+        }
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -43,7 +58,23 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
+        if (z < -0.1 || z > 0.1 || x < -0.1 || x > 0.1)
+        {
 
+            if (!stepSound.isPlaying)
+            {
+                stepSound.Play();
+            }
+            if (distance > 25)
+            {
+                NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+                agent.enabled = true; // this starts npc motion
+                                      // and let npc walk
+                Animator animator = npc.GetComponent<Animator>();
+                // Debug.Log(animator.GetInteger("state"));
+                animator.SetInteger("state", 1);
+            }
+        }
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
