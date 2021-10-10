@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     public GameObject[] weapons;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -12,13 +13,13 @@ public class WeaponManager : MonoBehaviour
     }
     private void Update()
     {
-        MachineGun machineGun = GetComponent<MachineGun>();
-        if (Input.GetKeyDown(KeyCode.Alpha1) && machineGun.isGrabbed)
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (Input.GetKeyDown(KeyCode.Alpha1) && PlayerMovement.singelton.isMachineGunGrabbed)
         {
 
             equickPistol();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && PlayerMovement.singelton.isGunGrabbed)
         {
             equickMachineGun();
         }

@@ -106,16 +106,7 @@ public class MachineGun : MonoBehaviour
                 Instantiate(bloodEffect, hit.point, transform.rotation);
                 hit.transform.gameObject.SetActive(false);
             }
-            else if (hit.transform.tag == "MachineGun")
-            {
-                Debug.Log("shishman");
-                float distance = Vector3.Distance(Player.transform.position, hit.transform.position);
-                if (distance < 10)
-                {
-                    hit.transform.gameObject.SetActive(false);
-                    isGrabbed = true;
-                }
-            }
+
         }
     }
     void DryFire()

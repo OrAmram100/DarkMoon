@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponsSpawn : MonoBehaviour
+public class MachineGunsSpawn : MonoBehaviour
 {
     public GameObject weaponToSpawn;
     public Transform[] spawnPoints;

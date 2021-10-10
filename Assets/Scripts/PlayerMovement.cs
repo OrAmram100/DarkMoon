@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public float currentVelY = 0;
     private AudioSource stepSound;
     public GameObject npc;
+    public GameObject aCamera;
+    public bool isMachineGunGrabbed, isGunGrabbed = false;
+    public static PlayerMovement singelton;
 
 
 
@@ -28,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     {
         stepSound = GetComponent<AudioSource>();
     }
+    private void Awake()
+    {
+        singelton = this;
+
+    }
     void npcStand()
     {
         NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
@@ -39,6 +47,28 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(aCamera.transform.position, aCamera.transform.forward, out hit))
+        {
+            if (hit.transform.tag == "MachineGun")
+            {
+                float distanceFromPlayer = Vector3.Distance(this.transform.position, hit.transform.position);
+                if (distanceFromPlayer < 70 && !isMachineGunGrabbed)
+                {
+                    hit.transform.gameObject.SetActive(false);
+                    isMachineGunGrabbed = true;
+                }
+            }
+            else if (hit.transform.tag == "Gun")
+            {
+                float distanceFromPlayer = Vector3.Distance(this.transform.position, hit.transform.position);              
+                if (distanceFromPlayer < 70 && !isGunGrabbed)
+                {
+                    hit.transform.gameObject.SetActive(false);
+                    isGunGrabbed = true;
+                }
+            }
+        }
         float distance = Vector3.Distance(npc.transform.position, this.transform.position);
         if (distance < 25)
         {
