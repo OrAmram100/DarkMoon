@@ -7,6 +7,8 @@ TagManager:
   - woodenChestTag
   - Enemy
   - Head
+  - Gun
+  - MachineGun
   layers:
   - Default
   - TransparentFX

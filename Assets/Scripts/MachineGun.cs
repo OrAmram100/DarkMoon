@@ -16,10 +16,12 @@ public class MachineGun : MonoBehaviour
     public AudioClip shootAC;
     public AudioClip dryFireAC;
     public AudioClip headShotAC;
+    public bool isGrabbed = false;
     //eject bullet casing
     public ParticleSystem bulletCasing;
     //blood effect
     public GameObject bloodEffect;
+    public GameObject Player;
     RaycastHit hit;
 
     public Transform shootPoint;
@@ -27,7 +29,7 @@ public class MachineGun : MonoBehaviour
     public Text currentAmmoText;
     public Text carriedAmmoText;
 
-    
+
     public int currentAmmo = 12;
     public int maxAmmo = 12;
     public int carriedAmmo = 60;
@@ -89,7 +91,6 @@ public class MachineGun : MonoBehaviour
     {
         if (Physics.Raycast(shootPoint.position, shootPoint.forward, out hit, weaponRange))
         {
-            Debug.Log(hit.transform.name);
             if (hit.transform.tag == "Enemy")
             {
                 EnemyHealth enemyHealthScript = hit.transform.GetComponent<EnemyHealth>();
@@ -105,9 +106,15 @@ public class MachineGun : MonoBehaviour
                 Instantiate(bloodEffect, hit.point, transform.rotation);
                 hit.transform.gameObject.SetActive(false);
             }
-            else
+            else if (hit.transform.tag == "MachineGun")
             {
-
+                Debug.Log("shishman");
+                float distance = Vector3.Distance(Player.transform.position, hit.transform.position);
+                if (distance < 10)
+                {
+                    hit.transform.gameObject.SetActive(false);
+                    isGrabbed = true;
+                }
             }
         }
     }
