@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject aCamera;
     public bool isMachineGunGrabbed, isGunGrabbed = false;
     public static PlayerMovement singelton;
+    public GameObject gun;
+    public GameObject machineGun;
+    public Text textForGun;
+    public Text textForMachineGun;
 
 
 
@@ -55,17 +60,38 @@ public class PlayerMovement : MonoBehaviour
                 float distanceFromPlayer = Vector3.Distance(this.transform.position, hit.transform.position);
                 if (distanceFromPlayer < 70 && !isMachineGunGrabbed)
                 {
-                    hit.transform.gameObject.SetActive(false);
-                    isMachineGunGrabbed = true;
+                    textForMachineGun.transform.gameObject.SetActive(true);
+                    textForMachineGun.text = "Press [e] to take the machine gun";
+                    textForMachineGun.enabled = true;
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        textForMachineGun.text = "";
+                        hit.transform.gameObject.SetActive(false);
+                        machineGun.SetActive(true);
+                        gun.SetActive(false);
+                        isMachineGunGrabbed = true;
+                        textForMachineGun.enabled = false;
+                    }
                 }
             }
             else if (hit.transform.tag == "Gun")
             {
-                float distanceFromPlayer = Vector3.Distance(this.transform.position, hit.transform.position);              
+                float distanceFromPlayer = Vector3.Distance(this.transform.position, hit.transform.position);
                 if (distanceFromPlayer < 70 && !isGunGrabbed)
                 {
-                    hit.transform.gameObject.SetActive(false);
-                    isGunGrabbed = true;
+
+                    textForGun.transform.gameObject.SetActive(true);
+                    textForGun.text = "Press [e] to take the gun";
+                    textForGun.enabled = true;
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        textForGun.enabled = false;
+                        machineGun.SetActive(false);
+                        hit.transform.gameObject.SetActive(false);
+                        gun.SetActive(true);
+                        isGunGrabbed = true;
+                    }
                 }
             }
         }
