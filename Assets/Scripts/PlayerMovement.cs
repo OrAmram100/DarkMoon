@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        textForGun.enabled = false;
+        textForMachineGun.enabled = false;
         stepSound = GetComponent<AudioSource>();
     }
     private void Awake()
@@ -63,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
                     textForMachineGun.transform.gameObject.SetActive(true);
                     textForMachineGun.text = "Press [e] to take the machine gun";
                     textForMachineGun.enabled = true;
-
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         textForMachineGun.text = "";
@@ -72,8 +73,11 @@ public class PlayerMovement : MonoBehaviour
                         gun.SetActive(false);
                         isMachineGunGrabbed = true;
                         textForMachineGun.enabled = false;
+                        MachineGun.instance.updateAmmoUI();
                     }
+
                 }
+
             }
             else if (hit.transform.tag == "Gun")
             {
@@ -91,8 +95,16 @@ public class PlayerMovement : MonoBehaviour
                         hit.transform.gameObject.SetActive(false);
                         gun.SetActive(true);
                         isGunGrabbed = true;
+                        Gun.instance.updateAmmoUI();
                     }
+
                 }
+
+            }
+            else
+            {
+                textForGun.enabled = false;
+                textForMachineGun.enabled = false;
             }
         }
         float distance = Vector3.Distance(npc.transform.position, this.transform.position);
@@ -170,6 +182,12 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(movement * movementSpeed * Time.deltaTime);
         controller.Move(new Vector3(0, currentVelY * Time.deltaTime, 0));
+    }
+    IEnumerator enableTexts()
+    {
+        yield return new WaitForSeconds(5f);
+        textForGun.enabled = false;
+        textForMachineGun.enabled = false;
     }
 }
 

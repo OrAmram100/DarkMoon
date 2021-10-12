@@ -1,101 +1,171 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
-
-    public int gunDamage = 1;                                            // Set the number of hitpoints that this gun will take away from shot objects with a health script
-    public float fireRate = 0.25f;                                        // Number in seconds which controls how often the player can fire
-    public float weaponRange = 50f;                                        // Distance in Unity units over which the player can fire
-    public float hitForce = 100f;                                        // Amount of force which will be added to objects with a rigidbody shot by the player
-    public Transform gunEnd;                                            // Holds a reference to the gun end object, marking the muzzle location of the gun
-
-    public GameObject fpsCam;                                                // Holds a reference to the first person camera
-    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);    // WaitForSeconds object used by our ShotEffect coroutine, determines time laser line will remain visible
-    private AudioSource gunAudio;                                        // Reference to the audio source which will play our shooting sound effect
-    private LineRenderer laserLine;                                        // Reference to the LineRenderer component which will display our laserline
-    private float nextFire;
-    public ParticleSystem muzzleAffect;// Float to store the time the player will be allowed to fire again, after firing
+    //used to damage enemy
+    public float damageEnemy = 20f;
+    float headShotDamage = 100f;
 
 
-    void Start()
+    //weapon effect
+    public ParticleSystem muzzleFlash;
+    public static Gun instance;
+    //sound
+    private AudioSource gunAs;
+    public AudioClip shootAC;
+    public AudioClip dryFireAC;
+    public AudioClip headShotAC;
+    public bool isGrabbed = false;
+    //eject bullet casing
+    public ParticleSystem bulletCasing;
+    //blood effect
+    public GameObject bloodEffect;
+    RaycastHit hit;
+
+    public Transform shootPoint;
+
+    public Text currentAmmoText;
+    public Text carriedAmmoText;
+
+
+    public int currentAmmo = 12;
+    public int maxAmmo = 12;
+    public int carriedAmmo = 60;
+    bool isReloading;
+    public float rateOfFire;
+    float nextFire = 0;
+    public float weaponRange;
+
+    Animator anim;
+
+    private void Awake()
     {
-        // Get and store a reference to our LineRenderer component
-        laserLine = GetComponent<LineRenderer>();
-
-        // Get and store a reference to our AudioSource component
-        gunAudio = GetComponent<AudioSource>();
-
-
-        // Get and store a reference to our Camera by searching this GameObject and its parents
+        instance = this;
     }
-
-
+    private void Start()
+    {
+        muzzleFlash.Stop();
+        gunAs = GetComponent<AudioSource>();
+        bulletCasing.Stop();
+        anim = GetComponent<Animator>();
+        //updateAmmoUI();
+    }
     void Update()
     {
-        // Check if the player has pressed the fire button and if enough time has elapsed since they last fired
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentAmmo > 0)
         {
-            muzzleAffect.Play();
-            // Update the time when our player can fire next
-            nextFire = Time.time + fireRate;
+            shoot();
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && currentAmmo <= 0 && !isReloading)
+        {
+            DryFire();
+        }
+        if (Input.GetKeyDown(KeyCode.R) && currentAmmo <= maxAmmo && !isReloading)
+        {
+            isReloading = true;
+            Reload();
+        }
 
-            // Start our ShotEffect coroutine to turn our laser line on and off
-            StartCoroutine(ShotEffect());
+    }
 
-            // Create a vector at the center of our camera's viewport
-            Vector3 rayOrigin = fpsCam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
-
-            // Declare a raycast hit to store information about what our raycast has hit
-            RaycastHit hit;
-
-            // Set the start position for our visual effect for our laser to the position of gunEnd
-            laserLine.SetPosition(0, gunEnd.position);
-
-            // Check if our raycast has hit anything
-            if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, weaponRange))
-            {
-                // Set the end position for our laser line 
-                laserLine.SetPosition(1, hit.point);
-
-                // Get a reference to a health script attached to the collider we hit
-                //    ShootableBox health = hit.collider.GetComponent<ShootableBox>();
-
-                // If there was a health script attached
-                //  if (health != null)
-                {
-                    // Call the damage function of that script, passing in our gunDamage variable
-                    //    health.Damage(gunDamage);
-                }
-
-                // Check if the object we hit has a rigidbody attached
-                if (hit.rigidbody != null)
-                {
-                    // Add force to the rigidbody we hit, in the direction from which it was hit
-                    hit.rigidbody.AddForce(-hit.normal * hitForce);
-                }
-            }
-            else
-            {
-                // If we did not hit anything, set the end of the line to a position directly in front of the camera at the distance of weaponRange
-                laserLine.SetPosition(1, rayOrigin + (fpsCam.transform.forward * weaponRange));
-            }
+    void shoot()
+    {
+        if (Time.time > nextFire)
+        {
+            nextFire = 0f;
+            nextFire = Time.time + rateOfFire;
+            anim.SetTrigger("Shoot");
+            currentAmmo--;
+            gunAs.volume = 0.2f;
+            gunAs.PlayOneShot(shootAC);
+            StartCoroutine(WeaponEffect());
+            ShootRay();
+            updateAmmoUI();
         }
     }
-
-
-    private IEnumerator ShotEffect()
+    public void updateAmmoUI()
     {
-        // Play the shooting sound effect
-        gunAudio.Play();
+        currentAmmoText.text = currentAmmo.ToString();
+        carriedAmmoText.text = carriedAmmo.ToString();
+    }
+    void ShootRay()
+    {
 
-        // Turn on our line renderer
-        laserLine.enabled = true;
+        if (Physics.Raycast(shootPoint.position, shootPoint.forward, out hit, weaponRange))
+        {
+            if (hit.transform.tag == "Enemy")
+            {
+                EnemyHealth enemyHealthScript = hit.transform.GetComponent<EnemyHealth>();
+                enemyHealthScript.DetuctHealth(damageEnemy);
+                Instantiate(bloodEffect, hit.point, transform.rotation);
+            }
+            else if (hit.transform.tag == "Head")
+            {
+                EnemyHealth enemyHealthScript = hit.transform.GetComponentInParent<EnemyHealth>();
+                enemyHealthScript.DetuctHealth(headShotDamage);
+                gunAs.PlayOneShot(headShotAC);
+                Instantiate(bloodEffect, hit.point, transform.rotation);
+                hit.transform.gameObject.SetActive(false);
+            }
 
-        //Wait for .07 seconds
-        yield return shotDuration;
 
-        // Deactivate our line renderer after waiting
-        laserLine.enabled = false;
+        }
+    }
+    void DryFire()
+    {
+
+        if (Time.time > nextFire)
+        {
+            nextFire = 0f;
+            nextFire = Time.time + rateOfFire;
+            gunAs.PlayOneShot(dryFireAC);
+
+        }
+
+    }
+    void Reload()
+    {
+
+        if (carriedAmmo <= 0)
+        {
+            return;
+        }
+        anim.SetTrigger("Reload");
+        StartCoroutine(ReloadCountDown(2f));
+
+    }
+    IEnumerator ReloadCountDown(float timer)
+    {
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+
+        }
+        if (timer <= 0f)
+        {
+            int bulletsNeededToFillmag = maxAmmo - currentAmmo;
+            int bulletsToDeduct = (carriedAmmo >= bulletsNeededToFillmag) ? bulletsNeededToFillmag : carriedAmmo;
+
+            carriedAmmo -= bulletsToDeduct;
+            currentAmmo += bulletsToDeduct;
+            isReloading = false;
+            updateAmmoUI();
+        }
+    }
+    IEnumerator WeaponEffect()
+    {
+        bulletCasing.Play();
+        muzzleFlash.Play();
+        yield return new WaitForEndOfFrame();
+        muzzleFlash.Stop();
+        bulletCasing.Stop();
     }
 }
+
+
+
+

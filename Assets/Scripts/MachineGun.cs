@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MachineGun : MonoBehaviour
 {
+    public static MachineGun instance;
     //used to damage enemy
     public float damageEnemy = 20f;
     float headShotDamage = 100f;
@@ -21,7 +22,6 @@ public class MachineGun : MonoBehaviour
     public ParticleSystem bulletCasing;
     //blood effect
     public GameObject bloodEffect;
-    public GameObject Player;
     RaycastHit hit;
 
     public Transform shootPoint;
@@ -40,13 +40,17 @@ public class MachineGun : MonoBehaviour
 
     Animator anim;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         muzzleFlash.Stop();
         gunAs = GetComponent<AudioSource>();
         bulletCasing.Stop();
         anim = GetComponent<Animator>();
-        updateAmmoUI();
+        //updateAmmoUI();
     }
     void Update()
     {
@@ -82,7 +86,7 @@ public class MachineGun : MonoBehaviour
 
         }
     }
-    void updateAmmoUI()
+    public void updateAmmoUI()
     {
         currentAmmoText.text = currentAmmo.ToString();
         carriedAmmoText.text = carriedAmmo.ToString();

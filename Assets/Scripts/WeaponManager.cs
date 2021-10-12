@@ -16,11 +16,12 @@ public class WeaponManager : MonoBehaviour
         PlayerMovement playerMovement = GetComponent<PlayerMovement>();
         if (Input.GetKeyDown(KeyCode.Alpha1) && PlayerMovement.singelton.isMachineGunGrabbed)
         {
-
+            MachineGun.instance.updateAmmoUI();
             equickPistol();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && PlayerMovement.singelton.isGunGrabbed)
         {
+            Gun.instance.updateAmmoUI();
             equickMachineGun();
         }
 
