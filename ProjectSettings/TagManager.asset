@@ -9,6 +9,7 @@ TagManager:
   - Head
   - Gun
   - MachineGun
+  - Drake
   layers:
   - Default
   - TransparentFX
