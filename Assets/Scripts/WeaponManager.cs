@@ -9,7 +9,7 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        unequickWeapons();
+     //   unequickWeapons();
     }
     private void Update()
     {

@@ -9,6 +9,7 @@ public class MachineGun : MonoBehaviour
     //used to damage enemy
     public float damageEnemy = 20f;
     float headShotDamage = 100f;
+    public float damageDrake = 15f;
 
     //weapon effect
     public ParticleSystem muzzleFlash;
@@ -109,6 +110,12 @@ public class MachineGun : MonoBehaviour
                 gunAs.PlayOneShot(headShotAC);
                 Instantiate(bloodEffect, hit.point, transform.rotation);
                 hit.transform.gameObject.SetActive(false);
+            }
+            else if (hit.transform.tag == "Drake")
+            {
+                DrakeHealth drakeHealthScript = hit.transform.GetComponentInParent<DrakeHealth>();
+                drakeHealthScript.DetuctHealth(damageDrake);
+                Instantiate(bloodEffect, hit.point, transform.rotation);
             }
 
         }

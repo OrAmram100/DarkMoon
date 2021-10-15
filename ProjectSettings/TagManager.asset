@@ -10,6 +10,7 @@ TagManager:
   - Gun
   - MachineGun
   - Drake
+  - GunToTake
   layers:
   - Default
   - TransparentFX

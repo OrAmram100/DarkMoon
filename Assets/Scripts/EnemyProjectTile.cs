@@ -17,8 +17,8 @@ public class EnemyProjectTile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         Transform target = GameObject.FindGameObjectWithTag("Player").transform;
-        Vector3 bulletAcuracy = new Vector3(Random.Range(0, 0.1f), Random.Range(0, 0.1f), Random.Range(0, 0.1f));
-        Vector3 direction = (target.position - transform.position) + bulletAcuracy;
+        // Vector3 bulletAcuracy = new Vector3(Random.Range(0, 0.1f), Random.Range(0, 0.1f), Random.Range(0, 0.1f));
+        Vector3 direction = (target.position - transform.position);
         rb.AddForce(direction * speed * Time.deltaTime);
 
 

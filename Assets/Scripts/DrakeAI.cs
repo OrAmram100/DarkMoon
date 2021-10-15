@@ -21,6 +21,8 @@ public class DrakeAI : MonoBehaviour
     public Transform gunForTake;
     public Transform gunWhenWalking;
     public Transform gunWhenShooting;
+    bool isDead = false;
+
 
 
     public Transform target;
@@ -36,7 +38,7 @@ public class DrakeAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         shootAs = GetComponent<AudioSource>();
         muzzleFlash.Stop();
-        gunForTake = GameObject.FindGameObjectWithTag("Gun").transform;
+        gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
     }
 
     void Update()
@@ -58,7 +60,7 @@ public class DrakeAI : MonoBehaviour
                 agent.SetDestination(gunForTake.position);
             }
         }
-        else if (GunManager.instance.isGrabbed)
+        else if (GunManager.instance.isGrabbed && !isDead && !DrakeHealth.singelton.isEnemyDead)
         {
             fireRate -= Time.deltaTime;
             float distance = Vector3.Distance(transform.position, target.position);
@@ -101,6 +103,15 @@ public class DrakeAI : MonoBehaviour
 
             }
         }
+        else
+        {
+            canAttack = false;
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsAttacking", false);
+            gunWhenWalking.gameObject.SetActive(false);
+            gunWhenShooting.gameObject.SetActive(false);
+            muzzleFlash.Stop();
+        }
     }
     void shoot()
     {
@@ -134,5 +145,11 @@ public class DrakeAI : MonoBehaviour
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
         agent.SetDestination(target.position);
+    }
+    public void enemyDeathAnim()
+    {
+        isDead = true;
+        animator.SetTrigger("IsDead");
+
     }
 }
