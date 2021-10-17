@@ -74,11 +74,11 @@ public class GoblinAI : MonoBehaviour
         {//&& !DrakeHealth.singelton.isEnemyDead)
             fireRate -= Time.deltaTime;
             distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if (distanceFromPlayer < 100 && !zombieEnter && !drakeEnter)
+            if (distanceFromPlayer < 150 && !zombieEnter && !drakeEnter)
             {
                 npcStand();
             }
-            if (distanceFromPlayer > 100 && distanceFromPlayer <= 200)
+            if (distanceFromPlayer > 150 && distanceFromPlayer <= 200)
             {
                 followPlayer();
             }
@@ -111,7 +111,6 @@ public class GoblinAI : MonoBehaviour
                 //    Debug.Log("attack drake");
                 //    goblinAttackDrake();
                 //}
-                Debug.Log("attack drake");
                 fireRate = 0.5f;
                 shootToDrake();
 
@@ -126,7 +125,6 @@ public class GoblinAI : MonoBehaviour
                 //    goblinAttackZombie();
                 //}
 
-                Debug.Log("attack zombie");
                 fireRate = 0.5f;
                 shootToZombie();
             }

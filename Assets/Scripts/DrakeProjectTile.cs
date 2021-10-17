@@ -26,7 +26,6 @@ public class DrakeProjectTile : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("Hi");
         findClosetEnemy();
 
     }
@@ -35,7 +34,6 @@ public class DrakeProjectTile : MonoBehaviour
     {
         float distanceToClosestEnemy = Mathf.Infinity;
         drakes = GameObject.FindGameObjectsWithTag("Drake");
-        Debug.Log(drakes.Length);
         foreach (GameObject currentEnemy in drakes)
         {
             float distanceToEnemy = (currentEnemy.transform.position - this.transform.position).sqrMagnitude;
@@ -46,7 +44,6 @@ public class DrakeProjectTile : MonoBehaviour
                 Vector3 direction = (closetEnemy.transform.position - transform.position);
                // goblin.transform.rotation = Quaternion.Slerp(goblin.transform.rotation, Quaternion.LookRotation(direction), 20 * Time.deltaTime);
                 rb.AddForce(direction * speed * Time.deltaTime);
-                Debug.Log(closetEnemy.transform.name);
             }
         }
         //  Debug.DrawLine(this.transform.position, closetEnemy.transform.position);
@@ -69,7 +66,6 @@ public class DrakeProjectTile : MonoBehaviour
     {
         if (collision.transform.tag == "Drake")
         {
-            Debug.Log("hit");
             DrakeHealth drakeHealth = collision.transform.GetComponent<DrakeHealth>();
             drakeHealth.DetuctHealth(damage);
             Destroy(gameObject);

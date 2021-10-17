@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
-    public Transform target;
+    Transform targetPlayer;
+    Transform targetGoblin;
     [HideInInspector]
     public NavMeshAgent agent;
     Animator animator;
@@ -13,33 +14,83 @@ public class EnemyAI : MonoBehaviour
     float turnSpeed = 5f;
     public float damageAmount = 30f;
     float attackTime = 2f;
+    float distanceFromGoblin;
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        targetPlayer = GameObject.FindGameObjectWithTag("Player").transform;
+        targetGoblin = GameObject.FindGameObjectWithTag("Goblin").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, target.position);
-        if (!isDead && !PlayerHealth.singelton.isDead)
+        float distance = Vector3.Distance(transform.position, targetPlayer.position);
+        if (targetGoblin != null)
         {
-            if (distance < 50 && canAttack)
+            distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.position);
+        }
+        if (distanceFromGoblin > distance)
+        {
+            if (!isDead && !PlayerHealth.singelton.isDead)
             {
-                AttackPlayer();
-            }
+                if (distance < 50 && canAttack)
+                {
+                    AttackPlayer();
+                }
 
-            else if (distance > 50)
+                else if (distance > 50)
+                {
+                    ChasePlayer();
+                }
+            }
+            else
             {
-                ChasePlayer();
+                DisableEnemy();
             }
         }
         else
         {
-            DisableEnemy();
+            if (targetGoblin != null)
+            {
+                if (!isDead)
+                {
+                    if (distance < 70 && canAttack)
+                    {
+                        AttackGoblin();
+                    }
+
+                    else if (distance > 70)
+                    {
+                        ChaseGoblin();
+                    }
+                }
+                else
+                {
+                    DisableEnemy();
+                }
+            }
         }
+    }
+    void ChaseGoblin()
+    {
+        agent.updateRotation = true;
+        agent.updatePosition = true;
+        agent.SetDestination(targetGoblin.position);
+        animator.SetBool("IsWalking", true);
+        animator.SetBool("IsAttacking", false);
+    }
+    void AttackGoblin()
+    {
+        agent.updateRotation = false;
+        Vector3 direction = targetGoblin.position - transform.position;
+        direction.y = 0;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
+        agent.updatePosition = false;
+        animator.SetBool("IsWalking", false);
+        animator.SetBool("IsAttacking", true);
+        StartCoroutine(AttackGoblinTime());
     }
     public void enemyDeathAnim()
     {
@@ -50,14 +101,14 @@ public class EnemyAI : MonoBehaviour
     {
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.SetDestination(target.position);
+        agent.SetDestination(targetPlayer.position);
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
     }
     void AttackPlayer()
     {
         agent.updateRotation = false;
-        Vector3 direction = target.position - transform.position;
+        Vector3 direction = targetPlayer.position - transform.position;
         direction.y = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
         agent.updatePosition = false;
@@ -79,5 +130,13 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(attackTime);
         canAttack = true;
 
+    }
+    IEnumerator AttackGoblinTime()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(0.5f);
+        GoblinHealth.singelton.DetuctHealth(damageAmount);
+        yield return new WaitForSeconds(attackTime);
+        canAttack = true;
     }
 }
