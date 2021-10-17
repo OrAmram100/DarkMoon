@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed = 1f;
     public float currentVelY = 0;
     private AudioSource stepSound;
-    public GameObject npc;
+    //public GameObject npc;
     public GameObject aCamera;
     public bool isMachineGunGrabbed, isGunGrabbed = false;
     public static PlayerMovement singelton;
@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject machineGun;
     public Text textForGun;
     public Text textForMachineGun;
+    public bool isPlayerGrabbed = false;
+
 
 
 
@@ -43,14 +45,14 @@ public class PlayerMovement : MonoBehaviour
         singelton = this;
 
     }
-    void npcStand()
-    {
-        NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
-        agent.enabled = false;
-        Animator animator = npc.GetComponent<Animator>();
-        animator.SetInteger("state", 3);
-        //agent.enabled = true;
-    }
+    //void npcStand()
+    //{
+    //    NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+    //    agent.enabled = false;
+    //    Animator animator = npc.GetComponent<Animator>();
+    //    animator.SetInteger("state", 3);
+    //    //agent.enabled = true;
+    //}
     // Update is called once per frame
     void Update()
     {
@@ -74,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
                         isMachineGunGrabbed = true;
                         textForMachineGun.enabled = false;
                         MachineGun.instance.updateAmmoUI();
+                        isPlayerGrabbed = true;
                     }
 
                 }
@@ -96,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
                         gun.SetActive(true);
                         isGunGrabbed = true;
                         Gun.instance.updateAmmoUI();
+                        isPlayerGrabbed = true;
                     }
 
                 }
@@ -107,11 +111,11 @@ public class PlayerMovement : MonoBehaviour
                 textForMachineGun.enabled = false;
             }
         }
-        float distance = Vector3.Distance(npc.transform.position, this.transform.position);
-        if (distance < 25)
-        {
-            npcStand();
-        }
+        //float distance = Vector3.Distance(npc.transform.position, this.transform.position);
+        //if (distance < 25)
+        //{
+        //    npcStand();
+        //}
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -133,15 +137,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 stepSound.Play();
             }
-            if (distance > 25)
-            {
-                NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
-                agent.enabled = true; // this starts npc motion
-                                      // and let npc walk
-                Animator animator = npc.GetComponent<Animator>();
-                // Debug.Log(animator.GetInteger("state"));
-                animator.SetInteger("state", 1);
-            }
+            //if (distance > 25)
+            //{
+            //    NavMeshAgent agent = npc.GetComponent<NavMeshAgent>();
+            //    agent.enabled = true; // this starts npc motion
+            //                          // and let npc walk
+            //    Animator animator = npc.GetComponent<Animator>();
+            //    // Debug.Log(animator.GetInteger("state"));
+            //    animator.SetInteger("state", 1);
+            //}
         }
         if (Input.GetButtonDown("Jump") && isGrounded)
         {

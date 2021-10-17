@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public static EnemyHealth singelton;
     public float enemyHealth = 100f;
     EnemyAI enemyAI;
-    public bool isEnemyDead;
-    public Collider[] enemyCol; 
+    public bool isEnemyDead = false;
+    public Collider[] enemyCol;
 
+    private void Awake()
+    {
+        singelton = this;
+    }
     private void Start()
     {
         enemyAI = GetComponent<EnemyAI>();
@@ -34,7 +39,7 @@ public class EnemyHealth : MonoBehaviour
             col.enabled = false;
         }
         enemyHealth = 0f;
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 2);
     }
 
 }

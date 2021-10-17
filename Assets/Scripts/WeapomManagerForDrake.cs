@@ -9,7 +9,7 @@ public class WeapomManagerForDrake : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-    //    unequickWeapons();
+        unequickWeapons();
     }
     void unequickWeapons()
     {

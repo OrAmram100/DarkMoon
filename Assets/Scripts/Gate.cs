@@ -17,11 +17,7 @@ public class Gate : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player")
-        {
-            Debug.Log("hi");
-            animator.SetBool("isOpen", true);
-        }
+        animator.SetBool("isOpen", true);
     }
     // Update is called once per frame
     void Update()

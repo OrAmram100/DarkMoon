@@ -6,8 +6,9 @@ public class GunManager : MonoBehaviour
 {
     public static GunManager instance;
     public bool isGrabbed = false;
-    public GameObject gun;
+    public GameObject gunForDrake;
     BoxCollider trigger;
+    public bool isPlayerGrabbed = false;
 
 
     private void Awake()
@@ -23,11 +24,18 @@ public class GunManager : MonoBehaviour
     {
         if (other.transform.tag == "Drake")
         {
-            Debug.Log("Hi");
             isGrabbed = true;
-            gun.SetActive(true);
+            gunForDrake.SetActive(true);
             trigger.enabled = false;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+        else if (other.transform.tag == "Player")
+        {
+            isPlayerGrabbed = true;
+            gunForDrake.SetActive(true);
+            trigger.enabled = false;
+            gameObject.SetActive(false);
+
         }
     }
 

@@ -18,7 +18,7 @@ public class DrakeAI : MonoBehaviour
     [HideInInspector]
     NavMeshAgent agent;
     bool canAttack = true;
-    public Transform gunForTake;
+    Transform gunForTake;
     public Transform gunWhenWalking;
     public Transform gunWhenShooting;
     bool isDead = false;
@@ -29,7 +29,11 @@ public class DrakeAI : MonoBehaviour
     float fireRate = 0.2f;
 
     AudioSource shootAs;
-
+    private void Awake()
+    {
+        Transform gunFortake = GameObject.FindGameObjectWithTag("GunToTake").transform;
+        gunForTake = gunFortake;
+    }
 
     void Start()
     {
@@ -38,7 +42,7 @@ public class DrakeAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         shootAs = GetComponent<AudioSource>();
         muzzleFlash.Stop();
-        gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
+      //  gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
     }
 
     void Update()

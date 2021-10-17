@@ -11,6 +11,7 @@ TagManager:
   - MachineGun
   - Drake
   - GunToTake
+  - Goblin
   layers:
   - Default
   - TransparentFX
