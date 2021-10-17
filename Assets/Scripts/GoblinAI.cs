@@ -35,6 +35,8 @@ public class GoblinAI : MonoBehaviour
     float speed = 500f;
     private bool zombieEnter = false;
     private bool drakeEnter = false;
+    public Transform grenade;
+    bool alreadyAttacked = false;
 
 
     // Start is called before the first frame update
@@ -76,11 +78,11 @@ public class GoblinAI : MonoBehaviour
             distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
             if (distanceFromPlayer < 150 && !zombieEnter && !drakeEnter)
             {
-                npcStand();
+                npcStandWithWeapon();
             }
             if (distanceFromPlayer > 150 && distanceFromPlayer <= 200)
             {
-                followPlayer();
+                followPlayerWithWeapons();
             }
             else if (distanceFromPlayer > 200)
             {
@@ -113,7 +115,20 @@ public class GoblinAI : MonoBehaviour
                 //}
                 fireRate = 0.5f;
                 shootToDrake();
+                if (!alreadyAttacked)
+                {
+                    Vector3 direction2 = drake.position - transform.position;
+                    direction2.y = 0;
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction2), turnSpeed * Time.deltaTime);
+                    transform.LookAt(drake);
+                    Rigidbody rb = Instantiate(grenade, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+                    rb.AddForce(transform.forward * 100f, ForceMode.Impulse);
+                    rb.AddForce(transform.up * 20f, ForceMode.Impulse);
+                    rb.MovePosition(drake.position);
+                    Invoke(nameof(resetAttack), 5);
+                    alreadyAttacked = true;
 
+                }
             }
             else if (fireRate <= 0 && zombieEnter && zombie != null)
             {
@@ -127,10 +142,28 @@ public class GoblinAI : MonoBehaviour
 
                 fireRate = 0.5f;
                 shootToZombie();
+                if (!alreadyAttacked)
+                {
+                    Vector3 direction2 = zombie.position - transform.position;
+                    direction2.y = 0;
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction2), turnSpeed * Time.deltaTime);
+                    transform.LookAt(zombie);
+                    Rigidbody rb = Instantiate(grenade, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+                    rb.AddForce(transform.forward * 100f, ForceMode.Impulse);
+                    rb.AddForce(transform.up * 20f, ForceMode.Impulse);
+                    rb.MovePosition(zombie.position);
+                    Invoke(nameof(resetAttack), 5);
+                    alreadyAttacked = true;
+
+                }
             }
 
         }
 
+    }
+    private void resetAttack()
+    {
+        alreadyAttacked = false;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -145,10 +178,17 @@ public class GoblinAI : MonoBehaviour
             drake = other.transform;
         }
     }
-    void npcStand()
+    void npcStandWithWeapon()
     {
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
+        agent.isStopped = true;
+        animator.SetBool("IsWalking", false);
+        animator.SetBool("IsShooting", false);
+        animator.SetBool("IsAttacking", false);
+    }
+    void npcStand()
+    {
         agent.isStopped = true;
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsShooting", false);
@@ -177,7 +217,7 @@ public class GoblinAI : MonoBehaviour
         muzzleFlash.Play();
     }
 
-    void followPlayer()
+    void followPlayerWithWeapons()
     {
         agent.isStopped = false;
         gunWhenWalking.gameObject.SetActive(true);
@@ -190,6 +230,18 @@ public class GoblinAI : MonoBehaviour
         animator.SetBool("IsShooting", false);
         agent.SetDestination(player.position);
     }
+    void followPlayer()
+    {
+        agent.isStopped = false;
+        agent.updateRotation = true;
+        agent.updatePosition = true;
+        agent.speed = 50;
+        animator.SetBool("IsWalking", true);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsShooting", false);
+        agent.SetDestination(player.position);
+    }
+
     void runAfterPlayer()
     {
         agent.isStopped = false;

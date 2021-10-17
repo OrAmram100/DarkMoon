@@ -5459,6 +5459,22 @@ MonoBehaviour:
   weapons:
   - {fileID: 9195679348016084726}
   - {fileID: 9195679347523520150}
+--- !u!54 &785311647
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074584738073701233}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!136 &785311642
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5630,6 +5646,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 652434788}
   gunWhenWalking: {fileID: 9195679347523885750}
   gunWhenShooting: {fileID: 9195679348015983318}
+  grenade: {fileID: 7521545932249159303, guid: 557fb93695be9bd469f77fde4d63ef72, type: 3}
 --- !u!114 &785311648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5647,22 +5664,6 @@ MonoBehaviour:
   healthCounter: {fileID: 695157911}
   enemyHealth: 100
   isEnemyDead: 0
---- !u!54 &785311647
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5074584738073701233}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &1585901636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5840,7 +5841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a044c013dbf679444b16fdd56d3aeb60, type: 3}
       propertyPath: m_Name
-      value: Drake
+      value: Drake Variant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a044c013dbf679444b16fdd56d3aeb60, type: 3}
       propertyPath: m_IsActive

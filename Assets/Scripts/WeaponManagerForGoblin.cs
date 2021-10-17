@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class WeaponManagerForGoblin : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject[] weapons;
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    private void Start()
+    {
+        unequickWeapons();
+    }
+    private void Update()
     {
         
+
     }
+    void unequickWeapons()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].SetActive(false);
+        }
+    }
+    
 }

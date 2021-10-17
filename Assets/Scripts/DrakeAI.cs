@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class DrakeAI : MonoBehaviour
     public Transform gunWhenShooting;
     bool isDead = false;
     float distanceFromGoblin;
+    bool alreadyAttacked = false;
+    public GameObject grenade;
 
 
     Transform targetPlayer;
@@ -74,7 +77,7 @@ public class DrakeAI : MonoBehaviour
             {
                 distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.position);
             }
-            if (distanceFromPlayer < distanceFromGoblin)
+            if (distanceFromPlayer < distanceFromGoblin || targetGoblin == null)
             {
                 fireRate -= Time.deltaTime;
                 float distance = Vector3.Distance(transform.position, targetPlayer.position);
@@ -105,6 +108,15 @@ public class DrakeAI : MonoBehaviour
                         agent.isStopped = true;
                         fireRate = 0.5f;
                         shoot();
+                        if (!alreadyAttacked)
+                        {
+                            Rigidbody rb = Instantiate(grenade, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+                            rb.AddForce(transform.forward * 200f, ForceMode.Impulse);
+                            rb.AddForce(transform.up * 20f, ForceMode.Impulse);
+                            Invoke(nameof(resetAttack), 5);
+                            alreadyAttacked = true;
+
+                        }
                     }
                 }
                 else if (distance > 300)
@@ -137,12 +149,12 @@ public class DrakeAI : MonoBehaviour
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                     if (fireRate <= 0 && distance < 300)
                     {
-                        if ((distance >= 40) && (distance <= 100))
+                        if ((distance >= 70) && (distance <= 100))
                         {
                             Debug.Log("chase after roni");
                             chaseGoblin();
                         }
-                        else if (distance < 40 && canAttack)
+                        else if (distance < 70 && canAttack)
                         {
                             agent.isStopped = false;
                             agent.updateRotation = false;
@@ -158,10 +170,18 @@ public class DrakeAI : MonoBehaviour
                         }
                         else if (distance > 100)
                         {     //distance between 100-200 stop and shoot
-                            Debug.Log("shoot after roni");
                             agent.isStopped = true;
                             fireRate = 0.5f;
                             shootToGoblin();
+                            if (!alreadyAttacked)
+                            {
+                                Rigidbody rb = Instantiate(grenade, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+                                rb.AddForce(transform.forward * 200f, ForceMode.Impulse);
+                                rb.AddForce(transform.up * 20f, ForceMode.Impulse);
+                                Invoke(nameof(resetAttack), 5);
+                                alreadyAttacked = true;
+
+                            }
                         }
                     }
                     else if (distance > 300)
@@ -188,6 +208,12 @@ public class DrakeAI : MonoBehaviour
             }
         }
     }
+
+    private void resetAttack()
+    {
+        alreadyAttacked = false;
+    }
+
     void shoot()
     {
         gunWhenShooting.gameObject.SetActive(true);
