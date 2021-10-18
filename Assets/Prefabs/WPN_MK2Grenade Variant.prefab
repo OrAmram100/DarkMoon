@@ -12,7 +12,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
@@ -26,8 +26,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.07
-  m_Height: 0.07
+  m_Radius: 0.18
+  m_Height: 0.18
   m_Direction: 2
   m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!114 &1822456814
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81cf770198108a4291804ac40637538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 5
+  delay: 3
   radius: 1
   force: 10000
   explosionEffect: {fileID: 545732554726217348, guid: d185c728898acb54a98e3c5f33167e16, type: 3}
@@ -57,6 +57,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: bc47d6d03a2cd0b4ab4297dfd2edfe5f, type: 3}
       propertyPath: m_Name
       value: WPN_MK2Grenade Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: bc47d6d03a2cd0b4ab4297dfd2edfe5f, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: bc47d6d03a2cd0b4ab4297dfd2edfe5f, type: 3}
       propertyPath: m_RootOrder

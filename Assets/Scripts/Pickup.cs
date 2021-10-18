@@ -32,7 +32,7 @@ public class Pickup : MonoBehaviour
 
     private IEnumerator PickupText()
     {
-        myMessage.enabled=true;
+        myMessage.enabled = true;
         yield return new WaitForSeconds(2f);
         myMessage.enabled = false;
 

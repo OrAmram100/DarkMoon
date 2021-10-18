@@ -25,9 +25,12 @@ public class PlayerMovement : MonoBehaviour
     public Text textForMachineGun;
     public bool isPlayerGrabbed = false;
     RaycastHit hit;
-    public Text text;
-
-
+    public Text textForHealth;
+    public Text textForGrenade;
+    public Text numOfGrenadesText;
+    public int numOfGrenades = 2;
+    public int numOfCurrentGrenades = 0;
+    public AudioClip pickHealthAC;
 
 
     public Transform groundCheck;
@@ -41,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         textForGun.enabled = false;
         textForMachineGun.enabled = false;
         stepSound = GetComponent<AudioSource>();
+        numOfGrenadesText.text = "Grenades: " + numOfCurrentGrenades.ToString();
     }
     private void Awake()
     {
@@ -108,29 +112,39 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (hit.transform.tag == "Health")
             {
-                Debug.Log("Ronidjdjdjjdjd");
                 if (PlayerHealth.singelton.currentHealth < PlayerHealth.singelton.maxHealth)
                 {
-                    Debug.Log("Roni shishman");
-
-                    text.gameObject.SetActive(true);
-                    text.text = "Press E to take it";
-                    text.enabled = true;
+                    textForHealth.gameObject.SetActive(true);
+                    textForHealth.text = "Press E to take the pack health";
+                    textForHealth.enabled = true;
                     pickUpHealth();
                 }
                 else
                 {
-                    Debug.Log("Roni shishman");
-                    text.gameObject.SetActive(true);
-                    text.enabled = true;
-                    text.text = "Health full";
+                    textForHealth.gameObject.SetActive(true);
+                    textForHealth.enabled = true;
+                    textForHealth.text = "Health full";
+                }
+            }
+            else if (hit.transform.tag == "Grenade")
+            {
+                textForGrenade.gameObject.SetActive(true);
+                textForGrenade.text = "Press [E] to take the grenade";
+                textForGrenade.enabled = true;
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    numOfCurrentGrenades += numOfGrenades;
+                    numOfGrenadesText.text = "Grenades: " + numOfCurrentGrenades.ToString();
+                    textForGrenade.enabled = false;
+                    Destroy(hit.transform.gameObject);
                 }
             }
             else
             {
-                text.enabled = false;
+                textForHealth.enabled = false;
                 textForGun.enabled = false;
                 textForMachineGun.enabled = false;
+                textForGrenade.enabled = false;
             }
         }
         //float distance = Vector3.Distance(npc.transform.position, this.transform.position);
@@ -219,6 +233,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            stepSound.PlayOneShot(pickHealthAC);
             HealthPack pickUpHealth = hit.transform.GetComponent<HealthPack>();
             float healthAmmount = pickUpHealth.healthPack;
             if (PlayerHealth.singelton.currentHealth + healthAmmount > PlayerHealth.singelton.maxHealth)
@@ -231,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
                 PlayerHealth.singelton.addHealth(healthAmmount);
             }
             Destroy(hit.transform.gameObject);
-            text.enabled = true;
+            textForHealth.enabled = false;
 
         }
     }

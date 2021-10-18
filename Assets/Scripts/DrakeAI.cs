@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+
 public class DrakeAI : MonoBehaviour
 {
     [SerializeField]
@@ -27,6 +29,8 @@ public class DrakeAI : MonoBehaviour
     float distanceFromGoblin;
     bool alreadyAttacked = false;
     public GameObject grenade;
+    public Text text;
+    public bool once = true;
 
 
     Transform targetPlayer;
@@ -72,6 +76,10 @@ public class DrakeAI : MonoBehaviour
         }
         else if (GunManager.instance.isGrabbed && !isDead && !DrakeHealth.singelton.isEnemyDead)
         {
+            if (once)
+            {
+                StartCoroutine(showText());
+            }
             float distanceFromPlayer = Vector3.Distance(transform.position, targetPlayer.position);
             if (targetGoblin != null)
             {
@@ -178,7 +186,7 @@ public class DrakeAI : MonoBehaviour
                                 Rigidbody rb = Instantiate(grenade, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
                                 rb.AddForce(transform.forward * 200f, ForceMode.Impulse);
                                 rb.AddForce(transform.up * 20f, ForceMode.Impulse);
-                                Invoke(nameof(resetAttack), 5);
+                                Invoke(nameof(resetAttack), 30);
                                 alreadyAttacked = true;
 
                             }
@@ -207,6 +215,16 @@ public class DrakeAI : MonoBehaviour
 
             }
         }
+    }
+
+    IEnumerator showText()
+    {
+        text.gameObject.SetActive(true);
+        text.text = "Be careful! the drake got the gun !";
+        text.enabled = true;
+        yield return new WaitForSeconds(3f);
+        text.enabled = false;
+        once = false;
     }
 
     private void resetAttack()

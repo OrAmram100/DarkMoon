@@ -14,6 +14,7 @@ TagManager:
   - Goblin
   - Health
   - HealthText
+  - Grenade
   layers:
   - Default
   - TransparentFX
