@@ -57,10 +57,15 @@ public class PlayerHealth : MonoBehaviour
             {
                 isTakingDamage = true;
                 currentHealth -= damage;
-                healthSlider.value -= damage;
             }
             UpdateHealthCounter();
         }
+    }
+    public void addHealth(float healthAmmount)
+    {
+        currentHealth += healthAmmount;
+        UpdateHealthCounter();
+
     }
     void Dead()
     {
@@ -71,8 +76,10 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Player is dead");
 
     }
-    private void UpdateHealthCounter()
+    public void UpdateHealthCounter()
     {
         healthCounter.text = currentHealth.ToString();
+        healthSlider.value = currentHealth;
+
     }
 }

@@ -12,6 +12,8 @@ TagManager:
   - Drake
   - GunToTake
   - Goblin
+  - Health
+  - HealthText
   layers:
   - Default
   - TransparentFX

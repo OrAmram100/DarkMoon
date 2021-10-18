@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour
     public GameObject keyBox;
     void Start()
     { 
-        wcm= GameObject.FindGameObjectWithTag("woodenChestTag").GetComponent<WoodenChestMotion>();
+        wcm = GameObject.FindGameObjectWithTag("woodenChestTag").GetComponent<WoodenChestMotion>();
 
     
     }

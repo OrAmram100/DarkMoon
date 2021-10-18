@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public Text textForGun;
     public Text textForMachineGun;
     public bool isPlayerGrabbed = false;
+    RaycastHit hit;
+    public Text text;
 
 
 
@@ -56,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
         if (Physics.Raycast(aCamera.transform.position, aCamera.transform.forward, out hit))
         {
             if (hit.transform.tag == "MachineGun")
@@ -105,8 +106,29 @@ public class PlayerMovement : MonoBehaviour
                 }
 
             }
+            else if (hit.transform.tag == "Health")
+            {
+                Debug.Log("Ronidjdjdjjdjd");
+                if (PlayerHealth.singelton.currentHealth < PlayerHealth.singelton.maxHealth)
+                {
+                    Debug.Log("Roni shishman");
+
+                    text.gameObject.SetActive(true);
+                    text.text = "Press E to take it";
+                    text.enabled = true;
+                    pickUpHealth();
+                }
+                else
+                {
+                    Debug.Log("Roni shishman");
+                    text.gameObject.SetActive(true);
+                    text.enabled = true;
+                    text.text = "Health full";
+                }
+            }
             else
             {
+                text.enabled = false;
                 textForGun.enabled = false;
                 textForMachineGun.enabled = false;
             }
@@ -192,6 +214,26 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(5f);
         textForGun.enabled = false;
         textForMachineGun.enabled = false;
+    }
+    void pickUpHealth()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            HealthPack pickUpHealth = hit.transform.GetComponent<HealthPack>();
+            float healthAmmount = pickUpHealth.healthPack;
+            if (PlayerHealth.singelton.currentHealth + healthAmmount > PlayerHealth.singelton.maxHealth)
+            {
+                PlayerHealth.singelton.currentHealth = PlayerHealth.singelton.maxHealth;
+                PlayerHealth.singelton.UpdateHealthCounter();
+            }
+            else
+            {
+                PlayerHealth.singelton.addHealth(healthAmmount);
+            }
+            Destroy(hit.transform.gameObject);
+            text.enabled = true;
+
+        }
     }
 }
 
