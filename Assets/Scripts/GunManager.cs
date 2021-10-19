@@ -6,7 +6,6 @@ public class GunManager : MonoBehaviour
 {
     public static GunManager instance;
     public bool isGrabbed = false;
-    public GameObject gunForDrake;
     BoxCollider trigger;
     public bool isPlayerGrabbed = false;
 
@@ -25,17 +24,8 @@ public class GunManager : MonoBehaviour
         if (other.transform.tag == "Drake")
         {
             isGrabbed = true;
-            gunForDrake.SetActive(true);
             trigger.enabled = false;
             gameObject.SetActive(false);
-        }
-        else if (other.transform.tag == "Player")
-        {
-            isPlayerGrabbed = true;
-            gunForDrake.SetActive(true);
-            trigger.enabled = false;
-            gameObject.SetActive(false);
-
         }
     }
 

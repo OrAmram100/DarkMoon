@@ -29,7 +29,7 @@ public class DrakeAI : MonoBehaviour
     float distanceFromGoblin;
     bool alreadyAttacked = false;
     public GameObject grenade;
-    public Text text;
+    Text text;
     public bool once = true;
 
 
@@ -42,6 +42,7 @@ public class DrakeAI : MonoBehaviour
     {
         Transform gunFortake = GameObject.FindGameObjectWithTag("GunToTake").transform;
         gunForTake = gunFortake;
+        text = GameObject.FindGameObjectWithTag("AlertText").GetComponent<Text>();
     }
 
     void Start()

@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
         {
             distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.position);
         }
-        if (distanceFromGoblin > distance)
+        if (distanceFromGoblin > distance || targetGoblin == null)
         {
             if (!isDead && !PlayerHealth.singelton.isDead)
             {
