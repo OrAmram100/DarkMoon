@@ -14,6 +14,10 @@ public class WoodenChestMotion : MonoBehaviour
     public Text findKeyText;
     private bool isFocusOn = false, isLocked = true;
     private AudioSource audioSource;
+    public Transform machineGun;
+    public Transform machineGun2;
+    RaycastHit hit;
+
 
 
     // Start is called before the first frame update
@@ -22,45 +26,49 @@ public class WoodenChestMotion : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         animator.SetBool("isOpen", false);
+        machineGun.GetComponent<BoxCollider>().enabled = false;
+        machineGun2.GetComponent<BoxCollider>().enabled = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool isOpen = animator.GetBool("isOpen");
-        RaycastHit hit;
         // check what object is in our focus
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit) && !isOpen)
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit))
         {
 
             // check that the object in camera focus is THIS
-            if (this.transform.gameObject.name == hit.collider.name && hit.distance < 25)
+            if (this.transform.gameObject.tag == hit.collider.tag && hit.distance < 25)
             {
-                // change crosshair
-                if (!isFocusOn)
+                bool isOpen = hit.transform.gameObject.GetComponent<Animator>().GetBool("isOpen");
+                if (!isOpen)
                 {
-                    seeThroughCrosshair.SetActive(false);
-                    touchCrosshair.SetActive(true);
-                    isFocusOn = true;
-                }
-
-                whatToDo.text = "Press [E] to open the chest";
-                whatToDo.gameObject.SetActive(true);
-                whatToDo.enabled = true;
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if (!isLocked)
-                        openTheChest();
-                    else
+                    // change crosshair
+                    if (!isFocusOn)
                     {
-                        whatToDo.enabled = false;
-                        findKeyText.text = "You need a key to open it";
-                        StartCoroutine(FindKeyText());
-
+                        seeThroughCrosshair.SetActive(false);
+                        touchCrosshair.SetActive(true);
+                        isFocusOn = true;
                     }
 
+                    whatToDo.text = "Press [I] to open the chest";
+                    whatToDo.gameObject.SetActive(true);
+                    whatToDo.enabled = true;
+
+                    if (Input.GetKeyDown(KeyCode.I))
+                    {
+                        if (!isLocked)
+                            openTheChest();
+                        else
+                        {
+                            whatToDo.enabled = false;
+                            findKeyText.text = "You need a key to open it";
+                            StartCoroutine(FindKeyText());
+
+                        }
+
+                    }
                 }
             }
             else
@@ -95,11 +103,13 @@ public class WoodenChestMotion : MonoBehaviour
 
     private void openTheChest()
     {
+        hit.transform.gameObject.GetComponent<Animator>().SetBool("isOpen", true);
         whatToDo.gameObject.SetActive(false);
         audioSource.PlayDelayed(0.5f);
-        animator.SetBool("isOpen", true);
         seeThroughCrosshair.SetActive(true);
         touchCrosshair.SetActive(false);
+      //  machineGun.GetComponent<BoxCollider>().enabled = true;
+        machineGun2.GetComponent<BoxCollider>().enabled = true;
     }
 }
 

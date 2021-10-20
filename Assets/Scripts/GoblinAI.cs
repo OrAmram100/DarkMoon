@@ -67,9 +67,13 @@ public class GoblinAI : MonoBehaviour
             {
                 npcStand();
             }
-            else
+            else if (distanceFromPlayer > 100 && distanceFromPlayer <= 200)
             {
                 followPlayer();
+            }
+            else
+            {
+                runAfterPlayer();
             }
         }
         else if (PlayerMovement.singelton.isPlayerGrabbed && !isDead)
@@ -249,7 +253,7 @@ public class GoblinAI : MonoBehaviour
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 100;
+        agent.speed = 130;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);

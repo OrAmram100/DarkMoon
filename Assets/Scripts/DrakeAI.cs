@@ -13,7 +13,7 @@ public class DrakeAI : MonoBehaviour
     [SerializeField]
     public Transform shootPoint;
     [SerializeField]
-    float turnSpeed = 20;
+    float turnSpeed = 100;
     public float damageAmount = 5f;
     float attackTime = 2f;
     [SerializeField]
@@ -32,7 +32,6 @@ public class DrakeAI : MonoBehaviour
     Text text;
     public bool once = true;
 
-
     Transform targetPlayer;
     Transform targetGoblin;
     float fireRate = 0.2f;
@@ -40,8 +39,6 @@ public class DrakeAI : MonoBehaviour
     AudioSource shootAs;
     private void Awake()
     {
-        Transform gunFortake = GameObject.FindGameObjectWithTag("GunToTake").transform;
-        gunForTake = gunFortake;
         text = GameObject.FindGameObjectWithTag("AlertText").GetComponent<Text>();
     }
 
@@ -53,27 +50,25 @@ public class DrakeAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         shootAs = GetComponent<AudioSource>();
         muzzleFlash.Stop();
-      //  gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
+        gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
+        //  gunForTake = GameObject.FindGameObjectWithTag("GunToTake").transform;
     }
 
     void Update()
     {
         if (!GunManager.instance.isGrabbed)
         {
-            float distanceToGun = Vector3.Distance(transform.position, gunForTake.transform.position);
+            Debug.Log(gunForTake.position);
             Vector3 directionToGun = gunForTake.transform.position - transform.position;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToGun), turnSpeed * Time.deltaTime);
-            if (distanceToGun < 800 && !GunManager.instance.isGrabbed)
-            {
-                agent.isStopped = false;
-                agent.updateRotation = true;
-                agent.updatePosition = true;
-                agent.speed = 40;
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsAttacking", false);
-                animator.SetBool("IsShooting", false);
-                agent.SetDestination(gunForTake.position);
-            }
+            agent.isStopped = false;
+            agent.updateRotation = true;
+            agent.updatePosition = true;
+            agent.speed = 40;
+            animator.SetBool("IsWalking", true);
+            animator.SetBool("IsAttacking", false);
+            animator.SetBool("IsShooting", false);
+            agent.SetDestination(gunForTake.position);
         }
         else if (GunManager.instance.isGrabbed && !isDead && !DrakeHealth.singelton.isEnemyDead)
         {
@@ -94,11 +89,12 @@ public class DrakeAI : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                 if (fireRate <= 0 && distance < 300)
                 {
-                    if ((distance >= 40) && (distance <= 100))
+                    Debug.Log(distance);
+                    if ((distance >= 70) && (distance <= 100))
                     {
                         chasePlayer();
                     }
-                    else if (distance < 40 && canAttack)
+                    else if (distance < 70 && canAttack)
                     {
                         agent.isStopped = false;
                         agent.updateRotation = false;
@@ -138,15 +134,15 @@ public class DrakeAI : MonoBehaviour
 
                 }
 
-                else
-                {
-                    canAttack = false;
-                    animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsAttacking", false);
-                    gunWhenWalking.gameObject.SetActive(false);
-                    gunWhenShooting.gameObject.SetActive(false);
-                    muzzleFlash.Stop();
-                }
+                //else
+                //{
+                //    canAttack = false;
+                //    animator.SetBool("IsWalking", false);
+                //    animator.SetBool("IsAttacking", false);
+                //    gunWhenWalking.gameObject.SetActive(false);
+                //    gunWhenShooting.gameObject.SetActive(false);
+                //    muzzleFlash.Stop();
+                //}
             }
             else
             {
@@ -160,7 +156,6 @@ public class DrakeAI : MonoBehaviour
                     {
                         if ((distance >= 70) && (distance <= 100))
                         {
-                            Debug.Log("chase after roni");
                             chaseGoblin();
                         }
                         else if (distance < 70 && canAttack)
@@ -203,15 +198,15 @@ public class DrakeAI : MonoBehaviour
 
                     }
 
-                    else
-                    {
-                        canAttack = false;
-                        animator.SetBool("IsWalking", false);
-                        animator.SetBool("IsAttacking", false);
-                        gunWhenWalking.gameObject.SetActive(false);
-                        gunWhenShooting.gameObject.SetActive(false);
-                        muzzleFlash.Stop();
-                    }
+                    //else
+                    //{
+                    //    canAttack = false;
+                    //    animator.SetBool("IsWalking", false);
+                    //    animator.SetBool("IsAttacking", false);
+                    //    gunWhenWalking.gameObject.SetActive(false);
+                    //    gunWhenShooting.gameObject.SetActive(false);
+                    //    muzzleFlash.Stop();
+                    //}
                 }
 
             }

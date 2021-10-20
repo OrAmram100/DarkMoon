@@ -5487,7 +5487,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 3
+  m_CollisionDetection: 0
 --- !u!136 &785311642
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5617,28 +5617,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!195 &785311643
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5074584738073701233}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 15
-  m_Acceleration: 20
-  avoidancePriority: 50
-  m_AngularSpeed: 999
-  m_StoppingDistance: 2
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.7
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &785311644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5654,13 +5632,12 @@ MonoBehaviour:
   projectTile: {fileID: 6865581389308424773, guid: 8289351afe064e14e99cf98eec52399a, type: 3}
   projectTileToGoblin: {fileID: 2693330997719510062, guid: 9eb1980c851d17d4395ef210e62215ee, type: 3}
   shootPoint: {fileID: 9195679347523885746}
-  turnSpeed: 20
+  turnSpeed: 100
   damageAmount: 5
   muzzleFlash: {fileID: 652434788}
   gunWhenWalking: {fileID: 4770517111526406364}
   gunWhenShooting: {fileID: 9195679347523885750}
   grenade: {fileID: 7521545932249159303, guid: 557fb93695be9bd469f77fde4d63ef72, type: 3}
-  text: {fileID: 5922818035880655977, guid: fa188259185abe447b7bdfd9078ba38f, type: 3}
   once: 1
 --- !u!114 &785311648
 MonoBehaviour:
@@ -5679,6 +5656,28 @@ MonoBehaviour:
   healthCounter: {fileID: 695157911}
   enemyHealth: 100
   isEnemyDead: 0
+--- !u!195 &5692179094429890937
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074584738073701233}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.4
+  m_Speed: 15
+  m_Acceleration: 30
+  avoidancePriority: 50
+  m_AngularSpeed: 999
+  m_StoppingDistance: 20
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.7
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!65 &1658201937
 BoxCollider:
   m_ObjectHideFlags: 0
