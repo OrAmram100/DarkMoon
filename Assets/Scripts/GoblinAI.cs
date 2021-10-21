@@ -253,7 +253,7 @@ public class GoblinAI : MonoBehaviour
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 130;
+        agent.speed = 200;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);

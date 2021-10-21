@@ -46,6 +46,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void DamagePlayer(float damage)
     {
+        Debug.Log("hiaaaa!!!");
         if (currentHealth > 0)
         {
             if (damage >= currentHealth)

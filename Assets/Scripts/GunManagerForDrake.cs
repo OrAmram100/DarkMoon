@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeapomManagerForDrake : MonoBehaviour
+public class GunManagerForDrake : MonoBehaviour
 {
     public GameObject[] weapons;
 

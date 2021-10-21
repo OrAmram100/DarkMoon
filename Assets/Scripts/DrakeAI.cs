@@ -58,7 +58,6 @@ public class DrakeAI : MonoBehaviour
     {
         if (!GunManager.instance.isGrabbed)
         {
-            Debug.Log(gunForTake.position);
             Vector3 directionToGun = gunForTake.transform.position - transform.position;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToGun), turnSpeed * Time.deltaTime);
             agent.isStopped = false;
@@ -89,13 +88,13 @@ public class DrakeAI : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                 if (fireRate <= 0 && distance < 300)
                 {
-                    Debug.Log(distance);
                     if ((distance >= 70) && (distance <= 100))
                     {
                         chasePlayer();
                     }
                     else if (distance < 70 && canAttack)
                     {
+                        Debug.Log("nooooooooooooooooooooooooooooooo");
                         agent.isStopped = false;
                         agent.updateRotation = false;
                         Vector3 direction2 = targetPlayer.position - transform.position;

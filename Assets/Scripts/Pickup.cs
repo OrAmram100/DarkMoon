@@ -13,19 +13,17 @@ public class Pickup : MonoBehaviour
     void Start()
     { 
         wcm = GameObject.FindGameObjectWithTag("woodenChestTag").GetComponent<WoodenChestMotion>();
-
     
     }
         private void OnTriggerEnter(Collider other)
     {
         if(other.name=="Player")
         {
-            keyBox.gameObject.SetActive(false);
-            StartCoroutine(PickupText());
-            myMessage.text = "You Picked up the key!";
             myMessage.gameObject.SetActive(true);
+            keyBox.gameObject.SetActive(false);
+            myMessage.text = "You Picked up the key!";
+            StartCoroutine(PickupText());
             StartCoroutine(wcm.Unlock());
-
 
         }
     }
@@ -33,7 +31,7 @@ public class Pickup : MonoBehaviour
     private IEnumerator PickupText()
     {
         myMessage.enabled = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         myMessage.enabled = false;
 
 
