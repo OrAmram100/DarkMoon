@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 90c52a9f7ead9c94f9cc9518e9f6c464
+  - enabled: 1
+    path: Assets/Scenes/Darkmoon.unity
+    guid: 83a80b1189f539c428bd9eb880cd86d6
   m_configObjects: {}
