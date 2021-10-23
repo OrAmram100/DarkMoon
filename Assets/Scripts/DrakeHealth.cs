@@ -49,6 +49,7 @@ public class DrakeHealth : MonoBehaviour
         healthSlider.value = 0;
         UpdateHealthCounter();
         drakeAI.enemyDeathAnim();
+        PlayerMovement.killCounter++;
         Destroy(gameObject, 2);
 
     }

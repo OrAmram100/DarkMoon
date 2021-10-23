@@ -12,7 +12,6 @@ public class GameOver : MonoBehaviour
     }
     public void RestartButton()
     {
-        Debug.Log("hi");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void ExitButton()

@@ -31,7 +31,8 @@ public class PlayerMovement : MonoBehaviour
     public int numOfGrenades = 2;
     public int numOfCurrentGrenades = 0;
     public AudioClip pickHealthAC;
-
+    public static int killCounter = 0;
+    public WinningGame winningGame;
 
     public Transform groundCheck;
     public float groundDistance = 2f;
@@ -222,6 +223,10 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(movement * movementSpeed * Time.deltaTime);
         controller.Move(new Vector3(0, currentVelY * Time.deltaTime, 0));
+        if (killCounter == 19)
+        {
+            winningGame.Setup();
+        }
     }
     IEnumerator enableTexts()
     {

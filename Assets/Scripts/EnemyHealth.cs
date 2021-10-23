@@ -39,6 +39,7 @@ public class EnemyHealth : MonoBehaviour
             col.enabled = false;
         }
         enemyHealth = 0f;
+        PlayerMovement.killCounter++;
         Destroy(gameObject, 2);
     }
 
