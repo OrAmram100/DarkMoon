@@ -76,7 +76,7 @@ public class GoblinAI : MonoBehaviour
                 runAfterPlayer();
             }
         }
-        else if (PlayerMovement.singelton.isPlayerGrabbed && !isDead)
+        else if (PlayerMovement.singelton.isPlayerGrabbed && !isDead && !PlayerHealth.singelton.isDead)
         {//&& !DrakeHealth.singelton.isEnemyDead)
             fireRate -= Time.deltaTime;
             distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);

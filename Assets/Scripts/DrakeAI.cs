@@ -69,7 +69,7 @@ public class DrakeAI : MonoBehaviour
             animator.SetBool("IsShooting", false);
             agent.SetDestination(gunForTake.position);
         }
-        else if (GunManager.instance.isGrabbed && !isDead && !DrakeHealth.singelton.isEnemyDead)
+        else if (GunManager.instance.isGrabbed && !isDead && !DrakeHealth.singelton.isEnemyDead && !PlayerHealth.singelton.isDead)
         {
             if (once)
             {
@@ -94,7 +94,6 @@ public class DrakeAI : MonoBehaviour
                     }
                     else if (distance < 70 && canAttack)
                     {
-                        Debug.Log("nooooooooooooooooooooooooooooooo");
                         agent.isStopped = false;
                         agent.updateRotation = false;
                         Vector3 direction2 = targetPlayer.position - transform.position;
