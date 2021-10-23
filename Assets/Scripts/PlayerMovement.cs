@@ -223,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(movement * movementSpeed * Time.deltaTime);
         controller.Move(new Vector3(0, currentVelY * Time.deltaTime, 0));
-        if (killCounter == 21)
+        if (killCounter == 20)
         {
             killCounter = 0;
             winningGame.Setup();

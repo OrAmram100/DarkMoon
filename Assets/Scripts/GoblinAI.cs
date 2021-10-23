@@ -63,11 +63,11 @@ public class GoblinAI : MonoBehaviour
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (!PlayerMovement.singelton.isPlayerGrabbed)
         {
-            if (distanceFromPlayer < 100)
+            if (distanceFromPlayer < 70)
             {
                 npcStand();
             }
-            else if (distanceFromPlayer > 100 && distanceFromPlayer <= 200)
+            else if (distanceFromPlayer > 70 && distanceFromPlayer <= 200)
             {
                 followPlayer();
             }
@@ -80,17 +80,17 @@ public class GoblinAI : MonoBehaviour
         {//&& !DrakeHealth.singelton.isEnemyDead)
             fireRate -= Time.deltaTime;
             distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-            if (distanceFromPlayer < 150 && !zombieEnter && !drakeEnter)
+            if (distanceFromPlayer < 70 && !zombieEnter && !drakeEnter)
             {
                 npcStandWithWeapon();
             }
-            if (distanceFromPlayer > 150 && distanceFromPlayer <= 200)
+            if (distanceFromPlayer > 70 && distanceFromPlayer <= 200)
             {
                 followPlayerWithWeapons();
             }
             else if (distanceFromPlayer > 200)
             {
-                runAfterPlayer();
+                runAfterPlayerWithWeapon();
             }
             if (zombie != null)
             {
@@ -184,16 +184,20 @@ public class GoblinAI : MonoBehaviour
     }
     void npcStandWithWeapon()
     {
+        agent.SetDestination(gameObject.transform.position);
+        agent.isStopped = true;
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
-        agent.isStopped = true;
+        agent.stoppingDistance = 20;
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsShooting", false);
         animator.SetBool("IsAttacking", false);
     }
     void npcStand()
     {
+        agent.SetDestination(gameObject.transform.position);
         agent.isStopped = true;
+        agent.stoppingDistance = 20;
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsShooting", false);
         animator.SetBool("IsAttacking", false);
@@ -228,7 +232,7 @@ public class GoblinAI : MonoBehaviour
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 50;
+        agent.speed = 80;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
@@ -239,7 +243,7 @@ public class GoblinAI : MonoBehaviour
         agent.isStopped = false;
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 50;
+        agent.speed = 80;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
@@ -249,11 +253,24 @@ public class GoblinAI : MonoBehaviour
     void runAfterPlayer()
     {
         agent.isStopped = false;
+        gunWhenWalking.gameObject.SetActive(false);
+        gunWhenShooting.gameObject.SetActive(false);
+        agent.updateRotation = true;
+        agent.updatePosition = true;
+        agent.speed = 500;
+        animator.SetBool("IsWalking", true);
+        animator.SetBool("IsAttacking", false);
+        animator.SetBool("IsShooting", false);
+        agent.SetDestination(player.position);
+    }
+    void runAfterPlayerWithWeapon()
+    {
+        agent.isStopped = false;
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 200;
+        agent.speed = 500;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);

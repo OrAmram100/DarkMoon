@@ -14,8 +14,11 @@ public class OldHouseDoorsMotion : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        doorSqueak.PlayDelayed(1f);
-        animator.SetBool("isOpen", true);
+        if (other.tag != "Goblin")
+        {
+            doorSqueak.PlayDelayed(1f);
+            animator.SetBool("isOpen", true);
+        }
     }
     private void OnTriggerExit(Collider other)
     {
