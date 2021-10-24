@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.002
@@ -108,8 +108,8 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 60
+    agentClimb: 1.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 218b1da5a82697241bdde955148bd9fd, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a3b3e08122367b74b9bded7dda2552b9, type: 2}
 --- !u!1001 &3182963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18503,7 +18503,7 @@ MonoBehaviour:
   projectTileForDrakes: {fileID: 7740343423756701874, guid: 70a7303ff84a46b48b2b562a6c526417, type: 3}
   shootPoint: {fileID: 1777225800}
   turnSpeed: 20
-  damageAmount: 5
+  damageAmount: 10
   muzzleFlash: {fileID: 1251495075}
   gunWhenWalking: {fileID: 1135517274}
   gunWhenShooting: {fileID: 1225187155}
@@ -19328,7 +19328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageEnemy: 20
-  damageDrake: 8
+  damageDrake: 5
   muzzleFlash: {fileID: 36426636}
   shootAC: {fileID: 8300000, guid: 6d68faa5288c1e242a7fd25473420ca6, type: 3}
   dryFireAC: {fileID: 8300000, guid: 738db0f0567f9bd4e9b4096f3fe90584, type: 3}
