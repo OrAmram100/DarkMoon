@@ -73,7 +73,6 @@ public class GoblinProjectTile : MonoBehaviour
         }
         else if (collision.transform.tag == "Enemy")
         {
-            Debug.Log("hi");
             EnemyHealth enemyHealth = collision.transform.GetComponent<EnemyHealth>();
             enemyHealth.DetuctHealth(damage);
             Destroy(gameObject);

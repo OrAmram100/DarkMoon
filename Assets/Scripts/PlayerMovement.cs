@@ -172,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!stepSound.isPlaying)
             {
+                stepSound.pitch = 1;
                 stepSound.Play();
             }
             //if (distance > 25)
@@ -219,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
         if (isSprinting == true)
         {
             movement *= sprintingMultiplier;
+            stepSound.pitch = 1.5f;
         }
 
         controller.Move(movement * movementSpeed * Time.deltaTime);

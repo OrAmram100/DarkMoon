@@ -14,7 +14,11 @@ public class WinningGame : MonoBehaviour
     }
     public void Setup()
     {
+        Invoke("Delay", 2);
         Cursor.lockState = CursorLockMode.Confined;
+    }
+    public void Delay()
+    {
         gameObject.SetActive(true);
     }
     public void RestartButton()

@@ -19,7 +19,6 @@ public class GrenadeEffect : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.transform.name);
         if (collision.transform.tag == "Enemy")
         {
             EnemyHealth enemyHealth = collision.transform.GetComponent<EnemyHealth>();

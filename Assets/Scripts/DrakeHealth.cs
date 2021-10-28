@@ -44,6 +44,7 @@ public class DrakeHealth : MonoBehaviour
     }
     public void Dead()
     {
+        GoblinAI.singelton.drakeEnter = false;
         isEnemyDead = true;
         currentHealth = 0;
         healthSlider.value = 0;

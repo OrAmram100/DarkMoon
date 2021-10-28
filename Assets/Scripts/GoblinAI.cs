@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class GoblinAI : MonoBehaviour
 {
+    public static GoblinAI singelton;
     [SerializeField]
     public GameObject projectTileForZombies;
     [SerializeField]
@@ -33,8 +34,8 @@ public class GoblinAI : MonoBehaviour
     public Transform player;
     Rigidbody rb;
     float speed = 500f;
-    private bool zombieEnter = false;
-    private bool drakeEnter = false;
+    public bool zombieEnter = false;
+    public bool drakeEnter = false;
     public Transform grenade;
     bool alreadyAttacked = false;
 
@@ -55,6 +56,7 @@ public class GoblinAI : MonoBehaviour
             drake = GameObject.FindGameObjectWithTag("Drake").transform;
         }
         rb = GetComponent<Rigidbody>();
+        singelton = this;
     }
 
     // Update is called once per frame
@@ -84,11 +86,11 @@ public class GoblinAI : MonoBehaviour
             {
                 npcStandWithWeapon();
             }
-            if (distanceFromPlayer > 70 && distanceFromPlayer <= 200)
+            if (distanceFromPlayer > 70 && distanceFromPlayer <= 200 && !zombieEnter && !drakeEnter)
             {
                 followPlayerWithWeapons();
             }
-            else if (distanceFromPlayer > 200)
+            else if (distanceFromPlayer > 200 && !zombieEnter && !drakeEnter)
             {
                 runAfterPlayerWithWeapon();
             }
@@ -110,6 +112,7 @@ public class GoblinAI : MonoBehaviour
             }
             if (fireRate <= 0 && drakeEnter && drake != null)
             {
+                agent.SetDestination(gameObject.transform.position);
                 Vector3 direction = drake.position - transform.position;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                 //if (distanceFromDrake < 50 && canAttack)
@@ -130,12 +133,13 @@ public class GoblinAI : MonoBehaviour
                     rb.AddForce(transform.up * 20f, ForceMode.Impulse);
                     rb.MovePosition(drake.position);
                     Invoke(nameof(resetAttack), 30);
-                    alreadyAttacked = true;
+                   // alreadyAttacked = true;
 
                 }
             }
             else if (fireRate <= 0 && zombieEnter && zombie != null)
             {
+                agent.SetDestination(gameObject.transform.position);
                 Vector3 direction = zombie.position - transform.position;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                 //if (distanceFromZombie < 50 && canAttack)
@@ -156,8 +160,8 @@ public class GoblinAI : MonoBehaviour
                     rb.AddForce(transform.forward * 100f, ForceMode.Impulse);
                     rb.AddForce(transform.up * 20f, ForceMode.Impulse);
                     rb.MovePosition(zombie.position);
-                    Invoke(nameof(resetAttack), 5);
-                    alreadyAttacked = true;
+                    Invoke(nameof(resetAttack), 30);
+                   // alreadyAttacked = true;
 
                 }
             }
@@ -171,12 +175,12 @@ public class GoblinAI : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Enemy")
+        if (other.transform.tag == "Enemy" && PlayerMovement.singelton.isPlayerGrabbed)
         {
             zombieEnter = true;
             zombie = other.transform;
         }
-        else if (other.transform.tag == "Drake")
+        else if (other.transform.tag == "Drake" && PlayerMovement.singelton.isPlayerGrabbed)
         {
             drakeEnter = true;
             drake = other.transform;
@@ -185,7 +189,6 @@ public class GoblinAI : MonoBehaviour
     void npcStandWithWeapon()
     {
         agent.SetDestination(gameObject.transform.position);
-        agent.isStopped = true;
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.stoppingDistance = 20;
@@ -196,7 +199,6 @@ public class GoblinAI : MonoBehaviour
     void npcStand()
     {
         agent.SetDestination(gameObject.transform.position);
-        agent.isStopped = true;
         agent.stoppingDistance = 20;
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsShooting", false);
@@ -227,7 +229,6 @@ public class GoblinAI : MonoBehaviour
 
     void followPlayerWithWeapons()
     {
-        agent.isStopped = false;
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
@@ -240,7 +241,6 @@ public class GoblinAI : MonoBehaviour
     }
     void followPlayer()
     {
-        agent.isStopped = false;
         agent.updateRotation = true;
         agent.updatePosition = true;
         agent.speed = 80;
@@ -252,29 +252,26 @@ public class GoblinAI : MonoBehaviour
 
     void runAfterPlayer()
     {
-        agent.isStopped = false;
         gunWhenWalking.gameObject.SetActive(false);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 600;
+        //agent.speed = 600;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
-        agent.SetDestination(player.position);
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 40f);
     }
     void runAfterPlayerWithWeapon()
     {
-        agent.isStopped = false;
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.speed = 500;
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
-        agent.SetDestination(player.position);
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 40f);
     }
     IEnumerator AttackTime()
     {
@@ -296,7 +293,6 @@ public class GoblinAI : MonoBehaviour
     }
     void goblinAttackZombie()
     {
-        agent.isStopped = false;
         agent.updateRotation = false;
         Vector3 direction2 = zombie.position - transform.position;
         direction2.y = 0;
@@ -309,7 +305,6 @@ public class GoblinAI : MonoBehaviour
     }
     void goblinAttackDrake()
     {
-        agent.isStopped = false;
         agent.updateRotation = false;
         Vector3 direction = drake.position - transform.position;
         direction.y = 0;

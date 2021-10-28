@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
     Animator animator;
     bool isDead = false;
     public bool canAttack = true;
-    float turnSpeed = 5f;
+    float turnSpeed = 10f;
     public float damageAmount = 30f;
     float attackTime = 2f;
     float distanceFromGoblin;
@@ -75,9 +75,11 @@ public class EnemyAI : MonoBehaviour
     }
     void ChaseGoblin()
     {
+        Vector3 direction = targetGoblin.position - transform.position;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
+        agent.transform.position = Vector3.MoveTowards(transform.position, targetGoblin.position,3f);
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.SetDestination(targetGoblin.position);
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
     }
@@ -101,7 +103,9 @@ public class EnemyAI : MonoBehaviour
     {
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.SetDestination(targetPlayer.position);
+        Vector3 direction = targetPlayer.position - transform.position;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
+        agent.transform.position = Vector3.MoveTowards(transform.position, targetPlayer.position, 3f);
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
     }

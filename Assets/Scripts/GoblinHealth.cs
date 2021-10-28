@@ -13,6 +13,7 @@ public class GoblinHealth : MonoBehaviour
     public float enemyHealth = 100f;
     GoblinAI goblinAI;
     public bool isEnemyDead;
+    public Text isDead;
 
     private void Awake()
     {
@@ -33,6 +34,9 @@ public class GoblinHealth : MonoBehaviour
             if (damage >= currentHealth)
             {
                 Dead();
+                isDead.gameObject.SetActive(true);
+                StartCoroutine(ShowMessage());
+
             }
             else
             {
@@ -55,5 +59,13 @@ public class GoblinHealth : MonoBehaviour
     private void UpdateHealthCounter()
     {
         healthCounter.text = currentHealth.ToString();
+    }
+    IEnumerator ShowMessage()
+    {
+        isDead.text = "Goblin is Dead protect your life!!";
+        isDead.enabled = true;
+        yield return new WaitForSeconds(1.5f);
+        isDead.enabled = false;
+        isDead.gameObject.SetActive(false);
     }
 }

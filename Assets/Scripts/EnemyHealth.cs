@@ -34,6 +34,7 @@ public class EnemyHealth : MonoBehaviour
         isEnemyDead = true;
         enemyAI.enemyDeathAnim();
         enemyAI.agent.speed = 0f;
+        GoblinAI.singelton.zombieEnter = false;
         foreach (var col in enemyCol)
         {
             col.enabled = false;

@@ -75,7 +75,6 @@ public class PlayerHealth : MonoBehaviour
         healthSlider.value = 0;
         UpdateHealthCounter();
         gameOver.Setup();
-        Debug.Log("Player is dead");
 
     }
     public void UpdateHealthCounter()
@@ -84,4 +83,5 @@ public class PlayerHealth : MonoBehaviour
         healthSlider.value = currentHealth;
 
     }
+    
 }
