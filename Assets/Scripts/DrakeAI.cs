@@ -33,7 +33,7 @@ public class DrakeAI : MonoBehaviour
     public bool once = true;
 
     Transform targetPlayer;
-    Transform targetGoblin;
+    GameObject targetGoblin;
     float fireRate = 0.2f;
 
     AudioSource shootAs;
@@ -46,7 +46,7 @@ public class DrakeAI : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         targetPlayer = GameObject.FindGameObjectWithTag("Player").transform;
-        targetGoblin = GameObject.FindGameObjectWithTag("Goblin").transform;
+        targetGoblin = GameObject.FindWithTag("Goblin");
         agent = GetComponent<NavMeshAgent>();
         shootAs = GetComponent<AudioSource>();
         muzzleFlash.Stop();
@@ -78,7 +78,7 @@ public class DrakeAI : MonoBehaviour
             float distanceFromPlayer = Vector3.Distance(transform.position, targetPlayer.position);
             if (targetGoblin != null)
             {
-                distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.position);
+                distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.transform.position);
             }
             if (distanceFromPlayer < distanceFromGoblin || targetGoblin == null)
             {
@@ -106,7 +106,7 @@ public class DrakeAI : MonoBehaviour
                         StartCoroutine(AttackTime());
 
                     }
-                    else if (distance > 100)
+                    else if (distance > 100 && distance < 300)
                     {     //distance between 100-200 stop and shoot
                         agent.isStopped = true;
                         fireRate = 0.5f;
@@ -147,8 +147,8 @@ public class DrakeAI : MonoBehaviour
                 if (targetGoblin != null)
                 {
                     fireRate -= Time.deltaTime;
-                    float distance = Vector3.Distance(transform.position, targetGoblin.position);
-                    Vector3 direction = targetGoblin.position - transform.position;
+                    float distance = Vector3.Distance(transform.position, targetGoblin.transform.position);
+                    Vector3 direction = targetGoblin.transform.position - transform.position;
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
                     if (fireRate <= 0 && distance < 300)
                     {
@@ -160,7 +160,7 @@ public class DrakeAI : MonoBehaviour
                         {
                             agent.isStopped = false;
                             agent.updateRotation = false;
-                            Vector3 direction2 = targetGoblin.position - transform.position;
+                            Vector3 direction2 = targetGoblin.transform.position - transform.position;
                             direction2.y = 0;
                             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction2), turnSpeed * Time.deltaTime);
                             agent.updatePosition = false;
@@ -170,7 +170,7 @@ public class DrakeAI : MonoBehaviour
                             StartCoroutine(AttackGoblinTime());
 
                         }
-                        else if (distance > 100)
+                        else if (distance > 100 && distance < 300)
                         {     //distance between 100-200 stop and shoot
                             agent.isStopped = true;
                             fireRate = 0.5f;
@@ -290,7 +290,7 @@ public class DrakeAI : MonoBehaviour
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
         animator.SetBool("IsShooting", false);
-        agent.SetDestination(targetGoblin.position);
+        agent.SetDestination(targetGoblin.transform.position);
     }
     public void enemyDeathAnim()
     {

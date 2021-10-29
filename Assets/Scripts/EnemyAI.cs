@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     Transform targetPlayer;
-    Transform targetGoblin;
+    GameObject targetGoblin;
     [HideInInspector]
     public NavMeshAgent agent;
     Animator animator;
@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         targetPlayer = GameObject.FindGameObjectWithTag("Player").transform;
-        targetGoblin = GameObject.FindGameObjectWithTag("Goblin").transform;
+        targetGoblin = GameObject.FindWithTag("Goblin");
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
@@ -29,7 +29,7 @@ public class EnemyAI : MonoBehaviour
         float distance = Vector3.Distance(transform.position, targetPlayer.position);
         if (targetGoblin != null)
         {
-            distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.position);
+            distanceFromGoblin = Vector3.Distance(transform.position, targetGoblin.transform.position);
         }
         if (distanceFromGoblin > distance || targetGoblin == null)
         {
@@ -75,9 +75,9 @@ public class EnemyAI : MonoBehaviour
     }
     void ChaseGoblin()
     {
-        Vector3 direction = targetGoblin.position - transform.position;
+        Vector3 direction = targetGoblin.transform.position - transform.position;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
-        agent.transform.position = Vector3.MoveTowards(transform.position, targetGoblin.position,3f);
+        agent.transform.position = Vector3.MoveTowards(transform.position, targetGoblin.transform.position, 3f);
         agent.updateRotation = true;
         agent.updatePosition = true;
         animator.SetBool("IsWalking", true);
@@ -86,7 +86,7 @@ public class EnemyAI : MonoBehaviour
     void AttackGoblin()
     {
         agent.updateRotation = false;
-        Vector3 direction = targetGoblin.position - transform.position;
+        Vector3 direction = targetGoblin.transform.position - transform.position;
         direction.y = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
         agent.updatePosition = false;

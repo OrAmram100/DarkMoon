@@ -124,6 +124,7 @@ public class GoblinAI : MonoBehaviour
                 shootToDrake();
                 if (!alreadyAttacked && PlayerMovement.singelton.numOfCurrentGrenades > 0)
                 {
+                    alreadyAttacked = true;
                     Vector3 direction2 = drake.position - transform.position;
                     direction2.y = 0;
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction2), turnSpeed * Time.deltaTime);
@@ -132,8 +133,7 @@ public class GoblinAI : MonoBehaviour
                     rb.AddForce(transform.forward * 100f, ForceMode.Impulse);
                     rb.AddForce(transform.up * 20f, ForceMode.Impulse);
                     rb.MovePosition(drake.position);
-                    Invoke(nameof(resetAttack), 30);
-                   // alreadyAttacked = true;
+                    Invoke(nameof(resetAttack), 20);
 
                 }
             }
@@ -152,6 +152,7 @@ public class GoblinAI : MonoBehaviour
                 shootToZombie();
                 if (!alreadyAttacked && PlayerMovement.singelton.numOfCurrentGrenades > 0)
                 {
+                    alreadyAttacked = true;
                     Vector3 direction2 = zombie.position - transform.position;
                     direction2.y = 0;
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction2), turnSpeed * Time.deltaTime);
@@ -160,8 +161,7 @@ public class GoblinAI : MonoBehaviour
                     rb.AddForce(transform.forward * 100f, ForceMode.Impulse);
                     rb.AddForce(transform.up * 20f, ForceMode.Impulse);
                     rb.MovePosition(zombie.position);
-                    Invoke(nameof(resetAttack), 30);
-                   // alreadyAttacked = true;
+                    Invoke(nameof(resetAttack), 15);
 
                 }
             }

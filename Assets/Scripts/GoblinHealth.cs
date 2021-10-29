@@ -53,6 +53,7 @@ public class GoblinHealth : MonoBehaviour
         healthSlider.value = 0;
         UpdateHealthCounter();
         goblinAI.enemyDeathAnim();
+        EnemyAI.
         Destroy(gameObject, 2);
 
     }
