@@ -188,6 +188,7 @@ public class GoblinAI : MonoBehaviour
     }
     void npcStandWithWeapon()
     {
+        muzzleFlash.Stop();
         agent.SetDestination(gameObject.transform.position);
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
@@ -198,6 +199,7 @@ public class GoblinAI : MonoBehaviour
     }
     void npcStand()
     {
+        muzzleFlash.Stop();
         agent.SetDestination(gameObject.transform.position);
         agent.stoppingDistance = 20;
         animator.SetBool("IsWalking", false);
@@ -229,6 +231,7 @@ public class GoblinAI : MonoBehaviour
 
     void followPlayerWithWeapons()
     {
+        muzzleFlash.Stop();
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
@@ -241,6 +244,7 @@ public class GoblinAI : MonoBehaviour
     }
     void followPlayer()
     {
+        muzzleFlash.Stop();
         agent.updateRotation = true;
         agent.updatePosition = true;
         agent.speed = 80;
@@ -252,6 +256,7 @@ public class GoblinAI : MonoBehaviour
 
     void runAfterPlayer()
     {
+        muzzleFlash.Stop();
         gunWhenWalking.gameObject.SetActive(false);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
@@ -264,6 +269,7 @@ public class GoblinAI : MonoBehaviour
     }
     void runAfterPlayerWithWeapon()
     {
+        muzzleFlash.Stop();
         gunWhenWalking.gameObject.SetActive(true);
         gunWhenShooting.gameObject.SetActive(false);
         agent.updateRotation = true;
@@ -317,6 +323,7 @@ public class GoblinAI : MonoBehaviour
     }
     public void enemyDeathAnim()
     {
+        muzzleFlash.Stop();
         isDead = true;
         animator.SetTrigger("IsDead");
 
