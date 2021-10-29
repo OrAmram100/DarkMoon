@@ -77,7 +77,8 @@ public class EnemyAI : MonoBehaviour
     {
         Vector3 direction = targetGoblin.transform.position - transform.position;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
-        agent.transform.position = Vector3.MoveTowards(transform.position, targetGoblin.transform.position, 3f);
+        // agent.transform.position = Vector3.MoveTowards(transform.position, targetGoblin.transform.position, 2.5f);
+        agent.SetDestination(targetGoblin.transform.position);
         agent.updateRotation = true;
         agent.updatePosition = true;
         animator.SetBool("IsWalking", true);
@@ -105,7 +106,8 @@ public class EnemyAI : MonoBehaviour
         agent.updatePosition = true;
         Vector3 direction = targetPlayer.position - transform.position;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), turnSpeed * Time.deltaTime);
-        agent.transform.position = Vector3.MoveTowards(transform.position, targetPlayer.position, 3f);
+        //agent.transform.position = Vector3.MoveTowards(transform.position, targetPlayer.position, 1f);
+        agent.SetDestination(targetPlayer.position);
         animator.SetBool("IsWalking", true);
         animator.SetBool("IsAttacking", false);
     }

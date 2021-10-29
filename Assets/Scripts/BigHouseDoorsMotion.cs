@@ -22,9 +22,11 @@ public class BigHouseDoorsMotion : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        doorSqueak.PlayDelayed(1f);
-        animator.SetBool("isOpen", false);
-
+        if (other.tag != "Goblin")
+        {
+            doorSqueak.PlayDelayed(1f);
+            animator.SetBool("isOpen", false);
+        }
     }
     // Update is called once per frame
     void Update()
