@@ -66,7 +66,6 @@ public class GoblinProjectTile : MonoBehaviour
     {
         if (collision.transform.tag == "Drake")
         {
-            Debug.Log("ball");
             DrakeHealth drakeHealth = collision.transform.GetComponent<DrakeHealth>();
             DrakeHealth.singelton.DetuctHealth(damage);
             Destroy(gameObject, 3);

@@ -98,14 +98,12 @@ public class Gun : MonoBehaviour
         {
             if (hit.transform.tag == "Enemy")
             {
-                Debug.Log("enemy");
                 EnemyHealth enemyHealthScript = hit.transform.GetComponent<EnemyHealth>();
                 enemyHealthScript.DetuctHealth(damageEnemy);
                 Instantiate(bloodEffect, hit.point, transform.rotation);
             }
             else if (hit.transform.tag == "Head")
             {
-                Debug.Log("head");
                 EnemyHealth enemyHealthScript = hit.transform.GetComponentInParent<EnemyHealth>();
                 enemyHealthScript.DetuctHealth(headShotDamage);
                 gunAs.PlayOneShot(headShotAC);

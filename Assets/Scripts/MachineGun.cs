@@ -104,7 +104,6 @@ public class MachineGun : MonoBehaviour
             }
             else if (hit.transform.tag == "Head")
             {
-                Debug.Log("Head");
                 EnemyHealth enemyHealthScript = hit.transform.GetComponentInParent<EnemyHealth>();
                 enemyHealthScript.DetuctHealth(headShotDamage);
                 gunAs.PlayOneShot(headShotAC);
