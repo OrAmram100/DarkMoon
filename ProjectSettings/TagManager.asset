@@ -16,6 +16,7 @@ TagManager:
   - HealthText
   - Grenade
   - AlertText
+  - Ground
   layers:
   - Default
   - TransparentFX

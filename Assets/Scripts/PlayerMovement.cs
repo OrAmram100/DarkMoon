@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 2f;
     public LayerMask groundMask;
+    bool isJumping = false;
 
     Vector3 velocity;
     // Start is called before the first frame update
@@ -152,8 +153,16 @@ public class PlayerMovement : MonoBehaviour
         //if (distance < 25)
         //{
         //    npcStand();
-        //}
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        //}        
+       // isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if (controller.isGrounded)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
 
         if (isGrounded && velocity.y < 0)
         {
@@ -259,5 +268,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
+
+
+
 
 
