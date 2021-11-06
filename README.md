@@ -22,6 +22,7 @@ Developed by Or Amram and Roni Khizverg for Game Development course final projec
 * A - Go left
 * SPACE - Jump
 * LEFT SHIFT - Run
+* R - Reload the gun
 * E - Take items that are in the field like weapons, grenades, first aid and whatever comes  out of the broken boxes.
 * I - Open a box
 * Left mouse button - Shot
