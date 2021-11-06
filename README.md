@@ -26,5 +26,5 @@ Developed by Or Amram and Roni Khizverg for Game Development course final projec
 * Q - Throwing a grenade
 
 ### Video
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ECuqb5Tv9qI/0.jpg)](https://www.youtube.com/watch?v=https://www.youtube.com/watch?v=ECuqb5Tv9qI)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ECuqb5Tv9qI/0.jpg)](https://www.youtube.com/watch?v="https://www.youtube.com/watch?v=ECuqb5Tv9qI")
 
