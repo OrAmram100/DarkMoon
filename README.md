@@ -28,4 +28,4 @@ Developed by Or Amram and Roni Khizverg for Game Development course final projec
 ### Video
 
 
-![Screenshot 2021-11-06 143958](https://user-images.githubusercontent.com/68865093/140613302-05074ef0-8e38-4481-a060-189872a34dd8.png)
+<video src= "https://www.youtube.com/watch?v=ECuqb5Tv9qI" width=180/>
