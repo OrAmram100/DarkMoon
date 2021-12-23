@@ -27,8 +27,8 @@ Developed by Or Amram and Roni Khizverg for Game Development course final projec
 * I - Open a box
 * Left mouse button - Shot
 * Q - Throwing a grenade
-* 1 - Change gun to pistol (if you have)
-* 2 - Change gun to meshine gun (if you have)
+* 1 - Change gun to pistol
+* 2 - Change gun to meshine gun
 
 ### Video
 
